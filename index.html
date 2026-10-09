@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Galada&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         :root {
@@ -279,48 +280,17 @@
         .l3 { top: 70%; left: 75%; width: 80px; height: 80px; }
         .l4 { top: 85%; left: 20%; width: 120px; height: 120px; opacity: 0.3; }
 
-        /* Floating Berries / Flavor Spheres */
-        .berries-container {
+        /* 3D Flavour Floating Props Canvas */
+        .floating-props-canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 110;
-            transition: transform 0.1s ease-out, opacity 0.5s ease;
+            z-index: 2;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .berries-container-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            transition: transform 0.1s ease-out, opacity 0.5s ease;
-        }
-
-        .berry {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            outline: none;
-            --progress-bar-color: transparent;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
-            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
-        }
-
-        .b1 { top: 25%; left: 30%; width: 220px; height: 220px; }
-        .b2 { top: 60%; left: 42%; width: 100px; height: 100px; }
-        .b3 { top: 30%; left: 62%; width: 250px; height: 250px; }
-        .b4 { top: 15%; left: 48%; width: 140px; height: 140px; }
-        .b5 { top: 75%; left: 20%; width: 120px; height: 120px; }
-        .b6 { top: 45%; left: 75%; width: 180px; height: 180px; }
-        .b7 { top: 15%; left: 40%; width: 80px; height: 80px; opacity: 0.7; }
-        .b8 { top: 50%; left: 55%; width: 70px; height: 70px; opacity: 0.6; }
-        .b9 { top: 80%; left: 35%; width: 75px; height: 75px; opacity: 0.7; }
 
         /* Typography */
         .main-title,
@@ -1273,10 +1243,10 @@
 
             <!-- 3a. Far Background Floating Leaves -->
             <div class="leaves-container">
-                <model-viewer class="leaf l1" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="45deg 75deg 105%"></model-viewer>
-                <model-viewer class="leaf l2" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="-30deg 60deg 105%"></model-viewer>
-                <model-viewer class="leaf l3" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="120deg 85deg 105%"></model-viewer>
-                <model-viewer class="leaf l4" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="10deg 45deg 105%"></model-viewer>
+                <model-viewer class="leaf l1" src="leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="45deg 75deg 105%"></model-viewer>
+                <model-viewer class="leaf l2" src="leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="-30deg 60deg 105%"></model-viewer>
+                <model-viewer class="leaf l3" src="leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="120deg 85deg 105%"></model-viewer>
+                <model-viewer class="leaf l4" src="leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="10deg 45deg 105%"></model-viewer>
             </div>
 
             <!-- ==============================================
@@ -1512,30 +1482,16 @@
                 </div>
             </div>
 
-            <!-- 3c. Background berries (behind the can) -->
-            <div class="berries-container-bg">
-                <model-viewer class="berry b7" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="-20deg 110deg 105%"></model-viewer>
-                <model-viewer class="berry b8" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="160deg 45deg 105%"></model-viewer>
-                <model-viewer class="berry b9" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="45deg 20deg 105%"></model-viewer>
-            </div>
+            <!-- 3c. Flavour-Specific 3D Floating Props Canvas (Three.js) -->
+            <canvas id="floating-props-canvas" class="floating-props-canvas"></canvas>
 
             <!-- 3d. Center product (the 3D can) -->
             <div class="hero-center">
-                <model-viewer id="product-model" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb" alt="Cola Next 3D Product" camera-controls
+                <model-viewer id="product-model" src="deit_soda2.glb" alt="Cola Next 3D Product" camera-controls
                     disable-zoom shadow-intensity="0" environment-image="neutral" exposure="1.5"
                     interaction-prompt="none" camera-orbit="0deg 90deg 380%" field-of-view="30deg"
                     class="main-product-3d">
                 </model-viewer>
-            </div>
-
-            <!-- 3e. Foreground berries (above text and can) -->
-            <div class="berries-container">
-                <model-viewer class="berry b1" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="45deg 120deg 105%"></model-viewer>
-                <model-viewer class="berry b2" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="-120deg 45deg 105%"></model-viewer>
-                <model-viewer class="berry b3" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="200deg 90deg 105%"></model-viewer>
-                <model-viewer class="berry b4" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="10deg 20deg 105%"></model-viewer>
-                <model-viewer class="berry b5" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="-45deg 160deg 105%"></model-viewer>
-                <model-viewer class="berry b6" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="80deg 75deg 105%"></model-viewer>
             </div>
 
         </div>
@@ -1821,161 +1777,485 @@
         ];
 
         // =============================================================
-        // HIGH-RESOLUTION PROCEDURAL CAN PBR TEXTURE GENERATOR
+        // HIGH-RESOLUTION PROCEDURAL CAN PBR TEXTURE GENERATOR (1024x1024)
+        // Calibrated to deit_soda2.glb UV coordinates:
+        // Height: X-axis (0..584). Circumference: Y-axis (0..1024).
+        // Front Center: X=300, Y=360. Lid & Chime: X=584..1024.
         // =============================================================
         function generateCanLabelDataUrl(product) {
             const canvas = document.createElement('canvas');
             canvas.width = 1024;
-            canvas.height = 512;
+            canvas.height = 1024;
             const ctx = canvas.getContext('2d');
 
-            // 1. Base Gradient with metallic sheen bands
-            const grad = ctx.createLinearGradient(0, 0, 1024, 0);
-            if (product.id === 'cola-next') {
-                grad.addColorStop(0, '#8a0a1e');
-                grad.addColorStop(0.2, '#c8102e');
-                grad.addColorStop(0.5, '#e02444');
-                grad.addColorStop(0.75, '#c8102e');
-                grad.addColorStop(1, '#8a0a1e');
-            } else if (product.id === 'zero-next') {
-                grad.addColorStop(0, '#111111');
-                grad.addColorStop(0.25, '#222222');
-                grad.addColorStop(0.5, '#333333');
-                grad.addColorStop(0.75, '#222222');
-                grad.addColorStop(1, '#0e0e0e');
-            } else if (product.id === 'fizup-next') {
-                grad.addColorStop(0, '#005a2e');
-                grad.addColorStop(0.2, '#008744');
-                grad.addColorStop(0.5, '#00a854');
-                grad.addColorStop(0.75, '#008744');
-                grad.addColorStop(1, '#004d27');
-            } else { // Rango
-                grad.addColorStop(0, '#c2410c');
-                grad.addColorStop(0.2, '#ea580c');
-                grad.addColorStop(0.5, '#f97316');
-                grad.addColorStop(0.75, '#ea580c');
-                grad.addColorStop(1, '#9a3412');
+            // 1. ALUMINUM TOP LID & PULL-TAB (X = 584 to 1024)
+            const lidBaseGrad = ctx.createLinearGradient(584, 0, 1024, 0);
+            lidBaseGrad.addColorStop(0, '#c2c5c9');
+            lidBaseGrad.addColorStop(0.3, '#e8ebef');
+            lidBaseGrad.addColorStop(0.7, '#f4f6f9');
+            lidBaseGrad.addColorStop(1, '#bec2c7');
+            ctx.fillStyle = lidBaseGrad;
+            ctx.fillRect(584, 0, 440, 1024);
+
+            for (let y = 0; y < 1024; y += 4) {
+                ctx.fillStyle = (y % 8 === 0) ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.06)';
+                ctx.fillRect(584, y, 440, 2);
             }
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, 1024, 512);
 
-            // 2. Metallic brushed sheen overlay
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-            ctx.fillRect(180, 0, 120, 512);
-            ctx.fillRect(680, 0, 100, 512);
+            const lidCenterX = 804;
+            const lidCenterY = 512;
+            
+            ctx.beginPath();
+            ctx.arc(lidCenterX, lidCenterY, 195, 0, Math.PI * 2);
+            ctx.strokeStyle = '#9ca0a6';
+            ctx.lineWidth = 14;
+            ctx.stroke();
 
-            // 3. Top and Bottom Aluminum Rim bands
-            const rimGrad = ctx.createLinearGradient(0, 0, 1024, 0);
-            rimGrad.addColorStop(0, '#888');
-            rimGrad.addColorStop(0.5, '#eee');
-            rimGrad.addColorStop(1, '#777');
-            ctx.fillStyle = rimGrad;
-            ctx.fillRect(0, 0, 1024, 30);
-            ctx.fillRect(0, 482, 1024, 30);
+            ctx.beginPath();
+            ctx.arc(lidCenterX, lidCenterY, 162, 0, Math.PI * 2);
+            ctx.strokeStyle = '#52525b';
+            ctx.lineWidth = 18;
+            ctx.stroke();
 
-            // Dark rim shadows
-            ctx.fillStyle = 'rgba(0,0,0,0.4)';
-            ctx.fillRect(0, 28, 1024, 5);
-            ctx.fillRect(0, 478, 1024, 4);
+            ctx.beginPath();
+            ctx.arc(lidCenterX, lidCenterY, 152, 0, Math.PI * 2);
+            ctx.fillStyle = '#dde1e6';
+            ctx.fill();
 
-            // Draw Brand Front Facing Art (Center: x = 512)
-            ctx.textAlign = 'center';
+            ctx.beginPath();
+            ctx.ellipse(lidCenterX, lidCenterY - 70, 45, 65, 0, 0, Math.PI * 2);
+            ctx.strokeStyle = '#71717a';
+            ctx.lineWidth = 3;
+            ctx.stroke();
 
-            // Halal / Mezan Top Stamp
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-            ctx.font = 'bold 16px Inter, sans-serif';
-            ctx.fillText('A PRODUCT OF MEZAN BEVERAGES • PAKISTAN', 512, 75);
+            // Pull-Tab Graphic
+            ctx.save();
+            ctx.translate(lidCenterX, lidCenterY);
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.28)';
+            ctx.beginPath();
+            ctx.roundRect(-22, -18, 44, 115, 12);
+            ctx.fill();
 
-            // Main Logo Title
+            const tabGrad = ctx.createLinearGradient(-20, -20, 20, 90);
+            tabGrad.addColorStop(0, '#ffffff');
+            tabGrad.addColorStop(0.5, '#d1d5db');
+            tabGrad.addColorStop(1, '#9ca3af');
+            ctx.fillStyle = tabGrad;
+            ctx.beginPath();
+            ctx.roundRect(-20, -20, 40, 110, 10);
+            ctx.fill();
+            ctx.strokeStyle = '#6b7280';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.ellipse(0, 45, 14, 22, 0, 0, Math.PI * 2);
+            ctx.fillStyle = '#b0b5bc';
+            ctx.fill();
+            ctx.strokeStyle = '#4b5563';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(0, -5, 8, 0, Math.PI * 2);
+            ctx.fillStyle = '#e5e7eb';
+            ctx.fill();
+            ctx.strokeStyle = '#374151';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.restore();
+
+            // 2. PRINTABLE CAN BODY BASE (X = 0 to 584)
+            // Circumference gradient along Y
+            const bodyGrad = ctx.createLinearGradient(0, 0, 0, 1024);
             if (product.id === 'cola-next') {
-                // White Script "Cola"
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 84px Galada, cursive';
-                ctx.fillText('Cola', 512, 190);
-
-                // NEXT Badge
-                ctx.fillStyle = '#f59e0b'; // Gold
-                ctx.fillRect(392, 215, 240, 55);
-                ctx.fillStyle = '#1e0508';
-                ctx.font = '900 42px Inter, sans-serif';
-                ctx.fillText('NEXT', 512, 258);
-
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 20px Inter, sans-serif';
-                ctx.fillText('ORIGINAL TASTE', 512, 315);
+                bodyGrad.addColorStop(0.0, '#5a0410');
+                bodyGrad.addColorStop(0.2, '#8c091d');
+                bodyGrad.addColorStop(0.35, '#c8102e');
+                bodyGrad.addColorStop(0.5, '#e51d3e');
+                bodyGrad.addColorStop(0.65, '#c8102e');
+                bodyGrad.addColorStop(0.85, '#8c091d');
+                bodyGrad.addColorStop(1.0, '#5a0410');
             } else if (product.id === 'zero-next') {
-                ctx.fillStyle = '#e2e8f0';
-                ctx.font = 'bold 78px Galada, cursive';
-                ctx.fillText('Cola', 512, 175);
-
-                // Vibrant Red ZERO
-                ctx.fillStyle = '#ef4444';
-                ctx.font = '900 64px Inter, sans-serif';
-                ctx.fillText('ZERO', 512, 245);
-
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 22px Inter, sans-serif';
-                ctx.fillText('SUGAR FREE • ZERO CALORIES', 512, 300);
+                bodyGrad.addColorStop(0.0, '#090909');
+                bodyGrad.addColorStop(0.25, '#171717');
+                bodyGrad.addColorStop(0.35, '#262626');
+                bodyGrad.addColorStop(0.5, '#1e1e1e');
+                bodyGrad.addColorStop(0.75, '#171717');
+                bodyGrad.addColorStop(1.0, '#090909');
             } else if (product.id === 'fizup-next') {
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'italic 900 86px Inter, sans-serif';
-                ctx.fillText('Fizup', 512, 190);
-
-                ctx.fillStyle = '#d9f99d'; // Lime
-                ctx.fillRect(402, 215, 220, 50);
-                ctx.fillStyle = '#064e3b';
-                ctx.font = '900 38px Inter, sans-serif';
-                ctx.fillText('NEXT', 512, 254);
-
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 20px Inter, sans-serif';
-                ctx.fillText('LEMON & LIME CITRUS', 512, 315);
+                bodyGrad.addColorStop(0.0, '#01371e');
+                bodyGrad.addColorStop(0.25, '#026939');
+                bodyGrad.addColorStop(0.35, '#059e58');
+                bodyGrad.addColorStop(0.5, '#026939');
+                bodyGrad.addColorStop(0.85, '#01371e');
+                bodyGrad.addColorStop(1.0, '#012615');
             } else { // Rango Next
-                ctx.fillStyle = '#ffffff';
-                ctx.font = '900 86px Outfit, sans-serif';
-                ctx.fillText('Rango', 512, 190);
+                bodyGrad.addColorStop(0.0, '#802102');
+                bodyGrad.addColorStop(0.25, '#c2410c');
+                bodyGrad.addColorStop(0.35, '#f97316');
+                bodyGrad.addColorStop(0.5, '#c2410c');
+                bodyGrad.addColorStop(0.85, '#802102');
+                bodyGrad.addColorStop(1.0, '#651801');
+            }
+            ctx.fillStyle = bodyGrad;
+            ctx.fillRect(0, 0, 584, 1024);
 
-                ctx.fillStyle = '#fef08a';
-                ctx.fillRect(402, 215, 220, 50);
-                ctx.fillStyle = '#9a3412';
-                ctx.font = '900 38px Inter, sans-serif';
-                ctx.fillText('NEXT', 512, 254);
+            // Specular vertical sheen along can height (around Y = 360)
+            const sheenGrad = ctx.createLinearGradient(0, 280, 0, 440);
+            sheenGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+            sheenGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.16)');
+            sheenGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = sheenGrad;
+            ctx.fillRect(65, 280, 470, 160);
 
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 20px Inter, sans-serif';
-                ctx.fillText('ZESTY ORANGE BURST', 512, 315);
+            // 3. ALUMINUM BEVELS
+            // Bottom Chime Bevel (X = 0 to 65)
+            const btmRim = ctx.createLinearGradient(0, 0, 65, 0);
+            btmRim.addColorStop(0, '#71717a');
+            btmRim.addColorStop(0.5, '#e4e4e7');
+            btmRim.addColorStop(0.8, '#f4f4f5');
+            btmRim.addColorStop(1, '#a1a1aa');
+            ctx.fillStyle = btmRim;
+            ctx.fillRect(0, 0, 65, 1024);
+
+            ctx.fillStyle = 'rgba(0,0,0,0.45)';
+            ctx.fillRect(63, 0, 4, 1024);
+
+            // Top Neck Bevel (X = 535 to 584)
+            const topNeck = ctx.createLinearGradient(535, 0, 584, 0);
+            topNeck.addColorStop(0, '#a1a1aa');
+            topNeck.addColorStop(0.3, '#f4f4f5');
+            topNeck.addColorStop(0.8, '#e4e4e7');
+            topNeck.addColorStop(1, '#71717a');
+            ctx.fillStyle = topNeck;
+            ctx.fillRect(535, 0, 49, 1024);
+
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(533, 0, 3, 1024);
+
+            // 4. MICRO-CONDENSATION FX (Water droplets across printable body)
+            function pseudoRand(s) {
+                const x = Math.sin(s) * 10000;
+                return x - Math.floor(x);
+            }
+            let seed = 42;
+            for (let i = 0; i < 95; i++) {
+                const dx = 75 + pseudoRand(seed++) * 445;
+                const dy = 20 + pseudoRand(seed++) * 980;
+                const rX = 2 + pseudoRand(seed++) * 4.5;
+                const rY = rX * (1 + pseudoRand(seed++) * 0.4);
+
+                ctx.beginPath();
+                ctx.ellipse(dx + 1, dy + 1.2, rX, rY, 0, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.28)';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.ellipse(dx, dy, rX, rY, 0, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.24)';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(dx - rX * 0.35, dy - rY * 0.35, Math.max(0.8, rX * 0.3), 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+                ctx.fill();
             }
 
-            // Tagline & Volume badge
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            ctx.font = '600 18px Inter, sans-serif';
-            ctx.fillText('250 ml • SERVE CHILLED', 512, 370);
-
-            // Bottom Ribbon
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-            ctx.fillRect(300, 400, 424, 40);
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 15px Inter, sans-serif';
-            ctx.fillText('100% HALAL CERTIFIED • MEZAN GROUP', 512, 426);
-
-            // Side Technical Column (Nutrition & Barcode preview on left & right)
-            ctx.textAlign = 'left';
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-            ctx.font = '11px Inter, sans-serif';
-            ctx.fillText('NUTRITION (250ml):', 50, 180);
-            ctx.fillText(`Energy: ${product.nutrition.calories}`, 50, 205);
-            ctx.fillText(`Sugars: ${product.nutrition.sugar}`, 50, 225);
-            ctx.fillText(`Sodium: ${product.nutrition.sodium}`, 50, 245);
-            ctx.fillText('Recycle Aluminum ♻', 50, 275);
-
-            // Barcode lines on right side
-            for (let i = 0; i < 28; i++) {
-                ctx.fillStyle = (i % 3 === 0) ? '#fff' : 'rgba(255,255,255,0.4)';
-                ctx.fillRect(860 + (i * 4), 200, (i % 2 === 0 ? 2 : 1), 60);
+            // =========================================================
+            // 5. BRAND ARTWORK (ROTATED +90deg TO READ HORIZONTALLY ON CAN)
+            // Center of front face: X = 300 (height), Y = 360 (circumference)
+            // =========================================================
+            function drawLabelElement(xHeight, yCirc, drawFn) {
+                ctx.save();
+                ctx.translate(xHeight, yCirc);
+                ctx.rotate(-Math.PI / 2);
+                drawFn();
+                ctx.restore();
             }
-            ctx.fillText('MADE IN PAKISTAN', 860, 280);
 
-            return canvas.toDataURL('image/jpeg', 0.92);
+            // Top Header: Mezan Beverages (X = 120)
+            drawLabelElement(120, 360, () => {
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.88)';
+                ctx.font = 'bold 13px Inter, sans-serif';
+                ctx.fillText('★ MEZAN BEVERAGES • PAKISTAN ★', 0, 0);
+            });
+
+            // Quality Arch (X = 145)
+            drawLabelElement(145, 360, () => {
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+                ctx.font = '600 11px Inter, sans-serif';
+                ctx.fillText('COLD-CRAFTED PAKISTANI FORMULA', 0, 0);
+            });
+
+            // Main Brand Logo & Badge
+            if (product.id === 'cola-next') {
+                // Script "Cola" (X = 220)
+                drawLabelElement(220, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+                    ctx.shadowBlur = 14;
+                    ctx.shadowOffsetY = 4;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 110px Galada, cursive';
+                    ctx.fillText('Cola', 0, 0);
+                });
+
+                // NEXT Badge - Gold pill (X = 295)
+                drawLabelElement(295, 360, () => {
+                    ctx.textAlign = 'center';
+                    const badgeW = 200, badgeH = 50;
+                    const goldBadge = ctx.createLinearGradient(-badgeW/2, -badgeH/2, badgeW/2, badgeH/2);
+                    goldBadge.addColorStop(0, '#f59e0b');
+                    goldBadge.addColorStop(0.5, '#fbbf24');
+                    goldBadge.addColorStop(1, '#d97706');
+                    ctx.fillStyle = goldBadge;
+                    ctx.beginPath();
+                    ctx.roundRect(-badgeW/2, -badgeH/2, badgeW, badgeH, 25);
+                    ctx.fill();
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 2.5;
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#1e0508';
+                    ctx.font = '900 36px Inter, sans-serif';
+                    ctx.fillText('NEXT', 0, 12);
+                });
+
+                // Flavour Descriptor (X = 355)
+                drawLabelElement(355, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 22px Inter, sans-serif';
+                    ctx.fillText('ORIGINAL TASTE', 0, 0);
+                });
+
+                // Sub-descriptor (X = 385)
+                drawLabelElement(385, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                    ctx.font = '600 13px Inter, sans-serif';
+                    ctx.fillText('CRISP & BOLD CARAMEL FIZZ', 0, 0);
+                });
+
+            } else if (product.id === 'zero-next') {
+                drawLabelElement(205, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                    ctx.shadowBlur = 12;
+                    ctx.fillStyle = '#e2e8f0';
+                    ctx.font = 'bold 95px Galada, cursive';
+                    ctx.fillText('Cola', 0, 0);
+                });
+
+                drawLabelElement(265, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#ef4444';
+                    ctx.font = '900 68px Inter, sans-serif';
+                    ctx.fillText('ZERO', 0, 0);
+                });
+
+                drawLabelElement(320, 360, () => {
+                    ctx.textAlign = 'center';
+                    const badgeW = 160, badgeH = 38;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.roundRect(-badgeW/2, -badgeH/2, badgeW, badgeH, 19);
+                    ctx.fill();
+                    ctx.fillStyle = '#0f172a';
+                    ctx.font = '900 24px Inter, sans-serif';
+                    ctx.fillText('NEXT', 0, 8);
+                });
+
+                drawLabelElement(365, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 18px Inter, sans-serif';
+                    ctx.fillText('SUGAR FREE • ZERO CALORIES', 0, 0);
+                });
+
+            } else if (product.id === 'fizup-next') {
+                drawLabelElement(225, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+                    ctx.shadowBlur = 12;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'italic 900 102px Inter, sans-serif';
+                    ctx.fillText('Fizup', 0, 0);
+                });
+
+                drawLabelElement(295, 360, () => {
+                    ctx.textAlign = 'center';
+                    const badgeW = 190, badgeH = 48;
+                    const limeBadge = ctx.createLinearGradient(-badgeW/2, -badgeH/2, badgeW/2, badgeH/2);
+                    limeBadge.addColorStop(0, '#bef264');
+                    limeBadge.addColorStop(1, '#a3e635');
+                    ctx.fillStyle = limeBadge;
+                    ctx.beginPath();
+                    ctx.roundRect(-badgeW/2, -badgeH/2, badgeW, badgeH, 24);
+                    ctx.fill();
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#064e3b';
+                    ctx.font = '900 34px Inter, sans-serif';
+                    ctx.fillText('NEXT', 0, 11);
+                });
+
+                drawLabelElement(355, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 21px Inter, sans-serif';
+                    ctx.fillText('LEMON & LIME CITRUS', 0, 0);
+                });
+
+                drawLabelElement(385, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#bef264';
+                    ctx.font = '600 13px Inter, sans-serif';
+                    ctx.fillText('NATURAL CITRUS OILS • EXTRA SPARKLING', 0, 0);
+                });
+
+            } else { // Rango Next
+                drawLabelElement(225, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+                    ctx.shadowBlur = 12;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = '900 105px Outfit, sans-serif';
+                    ctx.fillText('Rango', 0, 0);
+                });
+
+                drawLabelElement(295, 360, () => {
+                    ctx.textAlign = 'center';
+                    const badgeW = 190, badgeH = 48;
+                    ctx.fillStyle = '#fef08a';
+                    ctx.beginPath();
+                    ctx.roundRect(-badgeW/2, -badgeH/2, badgeW, badgeH, 24);
+                    ctx.fill();
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#9a3412';
+                    ctx.font = '900 34px Inter, sans-serif';
+                    ctx.fillText('NEXT', 0, 11);
+                });
+
+                drawLabelElement(355, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 21px Inter, sans-serif';
+                    ctx.fillText('ZESTY ORANGE BURST', 0, 0);
+                });
+
+                drawLabelElement(385, 360, () => {
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#fed7aa';
+                    ctx.font = '600 13px Inter, sans-serif';
+                    ctx.fillText('SUN-RIPENED CITRUS JOY', 0, 0);
+                });
+            }
+
+            // Volume Pill Badge (X = 425)
+            drawLabelElement(425, 360, () => {
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
+                ctx.beginPath();
+                ctx.roundRect(-100, -16, 200, 32, 16);
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 14px Inter, sans-serif';
+                ctx.fillText('250 ml • SERVE CHILLED', 0, 5);
+            });
+
+            // Halal Seal & Brand Pride (X = 465)
+            drawLabelElement(465, 360, () => {
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.font = 'bold 13px Inter, sans-serif';
+                ctx.fillText('🌙 100% HALAL CERTIFIED', 0, -4);
+                ctx.font = '500 11px Inter, sans-serif';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.fillText("PAKISTAN'S HOMEGROWN BEVERAGE LEADER", 0, 12);
+            });
+
+            // Dynamic bottom swoosh curve (X = 495)
+            drawLabelElement(495, 360, () => {
+                ctx.strokeStyle = (product.id === 'cola-next') ? '#fbbf24' :
+                                  (product.id === 'zero-next') ? '#ef4444' :
+                                  (product.id === 'fizup-next') ? '#bef264' : '#fde047';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.moveTo(-160, 0);
+                ctx.bezierCurveTo(-70, -15, 70, 15, 160, 0);
+                ctx.stroke();
+            });
+
+            // 6. LEFT FLANK (Nutrition Facts at Y = 160)
+            drawLabelElement(280, 160, () => {
+                ctx.textAlign = 'left';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+                ctx.beginPath();
+                ctx.roundRect(-120, -90, 240, 180, 8);
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 12px Inter, sans-serif';
+                ctx.fillText('NUTRITION FACTS', -105, -65);
+                ctx.font = '10px Inter, sans-serif';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+                ctx.fillText('Per 250ml Slim Can:', -105, -48);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 11px Inter, sans-serif';
+                ctx.fillText(`Energy: ${product.nutrition.calories}`, -105, -22);
+                ctx.fillText(`Sugars: ${product.nutrition.sugar}`, -105, -2);
+                ctx.fillText(`Sodium: ${product.nutrition.sodium}`, -105, 18);
+                ctx.fillText('Fat / Lipids: 0g', -105, 38);
+                ctx.fillText('Recycle Aluminum ♻', -105, 62);
+            });
+
+            // 7. RIGHT FLANK (Barcode at Y = 560)
+            drawLabelElement(280, 560, () => {
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+                ctx.beginPath();
+                ctx.roundRect(-110, -75, 220, 150, 8);
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                const barTop = -55, barH = 65, startX = -85;
+                for (let b = 0; b < 28; b++) {
+                    const bw = (b % 4 === 0 || b % 7 === 0) ? 3 : (b % 3 === 0 ? 2 : 1);
+                    ctx.fillStyle = (b % 5 === 0) ? 'rgba(255,255,255,0.45)' : '#ffffff';
+                    ctx.fillRect(startX + (b * 6.2), barTop, bw, barH);
+                }
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 11px Inter, sans-serif';
+                ctx.fillText('8 964001 202614', 0, 30);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+                ctx.font = 'bold 11px Inter, sans-serif';
+                ctx.fillText('MADE IN PAKISTAN', 0, 48);
+                ctx.font = '9px Inter, sans-serif';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.fillText('Mezan Beverages (Pvt) Ltd.', 0, 62);
+            });
+
+            return canvas.toDataURL('image/jpeg', 0.95);
         }
 
         // =============================================================
@@ -1983,10 +2263,299 @@
         // =============================================================
         const modelViewer = document.querySelector('#product-model');
         const mainProduct3D = document.querySelector('.main-product-3d');
-        const berriesFG = document.querySelector('.berries-container');
-        const berriesBG = document.querySelector('.berries-container-bg');
         const leavesBG = document.querySelector('.leaves-container');
-        const allBerries = document.querySelectorAll('.berry');
+        const propsCanvas = document.getElementById('floating-props-canvas');
+
+        // =============================================================
+        // THREE.JS FLAVOUR-SPECIFIC 3D FLOATING PROPS ENGINE
+        // Frosted Ice Cubes for Cola/Zero • Citrus Wheels for Fizup/Rango
+        // =============================================================
+        let propsScene, propsCamera, propsRenderer;
+        let propsGroup = null;
+        let propsItems = [];
+        let limeTexture, lemonTexture, orangeTexture;
+
+        function createCitrusCanvasTexture(type) {
+            const c = document.createElement('canvas');
+            c.width = 512;
+            c.height = 512;
+            const ctx = c.getContext('2d');
+            const cx = 256, cy = 256;
+
+            let rindColor, innerRind, pulpColor, pulpHighlight;
+            if (type === 'lime') {
+                rindColor = '#15803d';
+                innerRind = '#4ade80';
+                pulpColor = '#86efac';
+                pulpHighlight = '#dcfce7';
+            } else if (type === 'lemon') {
+                rindColor = '#ca8a04';
+                innerRind = '#facc15';
+                pulpColor = '#fef08a';
+                pulpHighlight = '#fef9c3';
+            } else { // orange
+                rindColor = '#c2410c';
+                innerRind = '#ea580c';
+                pulpColor = '#fb923c';
+                pulpHighlight = '#ffedd5';
+            }
+
+            // Outer Rind
+            ctx.beginPath();
+            ctx.arc(cx, cy, 250, 0, Math.PI * 2);
+            ctx.fillStyle = rindColor;
+            ctx.fill();
+
+            // Inner Rind
+            ctx.beginPath();
+            ctx.arc(cx, cy, 240, 0, Math.PI * 2);
+            ctx.fillStyle = innerRind;
+            ctx.fill();
+
+            // White Pith (Albedo)
+            ctx.beginPath();
+            ctx.arc(cx, cy, 226, 0, Math.PI * 2);
+            ctx.fillStyle = '#f8fafc';
+            ctx.fill();
+
+            // Radial pulp wedges (9 segments)
+            const segments = 9;
+            const innerR = 26;
+            const outerR = 212;
+            const segAngle = (Math.PI * 2) / segments;
+            const gap = 0.08;
+
+            for (let i = 0; i < segments; i++) {
+                const start = i * segAngle + gap;
+                const end = (i + 1) * segAngle - gap;
+
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(cx, cy, outerR, start, end);
+                ctx.arc(cx, cy, innerR, end, start, true);
+                ctx.closePath();
+
+                const pGrad = ctx.createRadialGradient(cx, cy, innerR, cx, cy, outerR);
+                pGrad.addColorStop(0, pulpHighlight);
+                pGrad.addColorStop(0.65, pulpColor);
+                pGrad.addColorStop(1, innerRind);
+                ctx.fillStyle = pGrad;
+                ctx.fill();
+
+                // Vesicle streaks
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+                ctx.lineWidth = 2;
+                for (let r = innerR + 25; r < outerR - 15; r += 28) {
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, start + 0.05, end - 0.05);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+
+            // White central core
+            ctx.beginPath();
+            ctx.arc(cx, cy, innerR + 2, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+
+            const tex = new THREE.CanvasTexture(c);
+            tex.generateMipmaps = true;
+            return tex;
+        }
+
+        function initFloatingProps() {
+            if (!propsCanvas || typeof THREE === 'undefined') return;
+
+            propsScene = new THREE.Scene();
+            propsCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+            propsCamera.position.z = 24;
+
+            propsRenderer = new THREE.WebGLRenderer({ canvas: propsCanvas, alpha: true, antialias: true });
+            propsRenderer.setSize(window.innerWidth, window.innerHeight);
+            propsRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Studio Lighting
+            const ambient = new THREE.AmbientLight(0xffffff, 0.9);
+            propsScene.add(ambient);
+
+            const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.2);
+            dirLight1.position.set(10, 15, 12);
+            propsScene.add(dirLight1);
+
+            const dirLight2 = new THREE.DirectionalLight(0xbae6fd, 0.8);
+            dirLight2.position.set(-10, -10, -5);
+            propsScene.add(dirLight2);
+
+            limeTexture = createCitrusCanvasTexture('lime');
+            lemonTexture = createCitrusCanvasTexture('lemon');
+            orangeTexture = createCitrusCanvasTexture('orange');
+
+            propsGroup = new THREE.Group();
+            propsScene.add(propsGroup);
+
+            rebuildPropsForProduct(COLA_NEXT_PRODUCTS[0]);
+            window.addEventListener('resize', onPropsResize);
+        }
+
+        function onPropsResize() {
+            if (!propsCamera || !propsRenderer) return;
+            propsCamera.aspect = window.innerWidth / window.innerHeight;
+            propsCamera.updateProjectionMatrix();
+            propsRenderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function rebuildPropsForProduct(product) {
+            if (!propsGroup || typeof THREE === 'undefined') return;
+
+            while (propsGroup.children.length > 0) {
+                const obj = propsGroup.children[0];
+                propsGroup.remove(obj);
+            }
+            propsItems = [];
+
+            const slots = [
+                { x: -9.5, y:  4.5, z:  1.0, scale: 1.15 },
+                { x:  9.8, y:  5.2, z: -0.5, scale: 1.25 },
+                { x: -8.8, y: -4.8, z: -1.0, scale: 1.05 },
+                { x:  9.2, y: -4.2, z:  1.2, scale: 1.20 },
+                { x: -5.5, y:  7.0, z: -2.0, scale: 0.85 },
+                { x:  6.0, y:  7.2, z:  0.8, scale: 0.95 },
+                { x: -11.5, y: 0.0, z: -1.5, scale: 0.90 },
+                { x:  11.5, y: 0.5, z:  0.5, scale: 1.10 }
+            ];
+
+            if (product.id === 'cola-next' || product.id === 'zero-next') {
+                slots.forEach((slot, i) => {
+                    const isCube = (i % 2 === 0);
+                    let mesh;
+
+                    if (isCube) {
+                        const size = 1.8 * slot.scale;
+                        const geom = new THREE.BoxGeometry(size, size, size);
+                        const mat = new THREE.MeshStandardMaterial({
+                            color: product.id === 'cola-next' ? 0xe0f2fe : 0xd1d5db,
+                            roughness: 0.15,
+                            metalness: 0.1,
+                            transparent: true,
+                            opacity: 0.85
+                        });
+                        mesh = new THREE.Mesh(geom, mat);
+
+                        const innerGeom = new THREE.BoxGeometry(size * 0.72, size * 0.72, size * 0.72);
+                        const innerMat = new THREE.MeshBasicMaterial({
+                            color: 0xffffff,
+                            transparent: true,
+                            opacity: 0.45,
+                            wireframe: true
+                        });
+                        mesh.add(new THREE.Mesh(innerGeom, innerMat));
+                    } else {
+                        const radius = 1.0 * slot.scale;
+                        const geom = new THREE.SphereGeometry(radius, 24, 24);
+                        const mat = new THREE.MeshStandardMaterial({
+                            color: product.id === 'cola-next' ? 0xf59e0b : 0xe2e8f0,
+                            roughness: 0.1,
+                            metalness: 0.35,
+                            transparent: true,
+                            opacity: 0.75
+                        });
+                        mesh = new THREE.Mesh(geom, mat);
+                    }
+
+                    mesh.position.set(slot.x, slot.y, slot.z);
+                    propsGroup.add(mesh);
+
+                    propsItems.push({
+                        mesh,
+                        baseX: slot.x,
+                        baseY: slot.y,
+                        baseZ: slot.z,
+                        rotSpeedX: (Math.random() - 0.5) * 0.015,
+                        rotSpeedY: (Math.random() - 0.5) * 0.015,
+                        rotSpeedZ: (Math.random() - 0.5) * 0.01,
+                        floatSpeed: 0.8 + Math.random() * 0.6,
+                        floatPhase: Math.random() * Math.PI * 2,
+                        floatAmp: 0.35 + Math.random() * 0.25
+                    });
+                });
+            } else if (product.id === 'fizup-next') {
+                slots.forEach((slot, i) => {
+                    const isLime = (i % 2 === 0);
+                    const radius = 1.9 * slot.scale;
+                    const geom = new THREE.CylinderGeometry(radius, radius, 0.26, 32);
+
+                    const rindMat = new THREE.MeshStandardMaterial({
+                        color: isLime ? 0x16a34a : 0xeab308,
+                        roughness: 0.4,
+                        transparent: true,
+                        opacity: 0.95
+                    });
+                    const capMat = new THREE.MeshStandardMaterial({
+                        map: isLime ? limeTexture : lemonTexture,
+                        roughness: 0.25,
+                        transparent: true,
+                        opacity: 0.92
+                    });
+
+                    const mesh = new THREE.Mesh(geom, [rindMat, capMat, capMat]);
+                    mesh.rotation.x = Math.PI / 3 + (Math.random() - 0.5) * 0.5;
+                    mesh.rotation.z = Math.random() * Math.PI;
+                    mesh.position.set(slot.x, slot.y, slot.z);
+                    propsGroup.add(mesh);
+
+                    propsItems.push({
+                        mesh,
+                        baseX: slot.x,
+                        baseY: slot.y,
+                        baseZ: slot.z,
+                        rotSpeedX: (Math.random() - 0.5) * 0.012,
+                        rotSpeedY: (Math.random() - 0.5) * 0.015,
+                        rotSpeedZ: (Math.random() - 0.5) * 0.01,
+                        floatSpeed: 0.9 + Math.random() * 0.5,
+                        floatPhase: Math.random() * Math.PI * 2,
+                        floatAmp: 0.4
+                    });
+                });
+            } else { // Rango Next
+                slots.forEach((slot, i) => {
+                    const radius = 2.0 * slot.scale;
+                    const geom = new THREE.CylinderGeometry(radius, radius, 0.28, 32);
+
+                    const rindMat = new THREE.MeshStandardMaterial({
+                        color: 0xea580c,
+                        roughness: 0.4,
+                        transparent: true,
+                        opacity: 0.95
+                    });
+                    const capMat = new THREE.MeshStandardMaterial({
+                        map: orangeTexture,
+                        roughness: 0.25,
+                        transparent: true,
+                        opacity: 0.92
+                    });
+
+                    const mesh = new THREE.Mesh(geom, [rindMat, capMat, capMat]);
+                    mesh.rotation.x = Math.PI / 3 + (Math.random() - 0.5) * 0.5;
+                    mesh.rotation.z = Math.random() * Math.PI;
+                    mesh.position.set(slot.x, slot.y, slot.z);
+                    propsGroup.add(mesh);
+
+                    propsItems.push({
+                        mesh,
+                        baseX: slot.x,
+                        baseY: slot.y,
+                        baseZ: slot.z,
+                        rotSpeedX: (Math.random() - 0.5) * 0.012,
+                        rotSpeedY: (Math.random() - 0.5) * 0.015,
+                        rotSpeedZ: (Math.random() - 0.5) * 0.01,
+                        floatSpeed: 0.8 + Math.random() * 0.6,
+                        floatPhase: Math.random() * Math.PI * 2,
+                        floatAmp: 0.4
+                    });
+                });
+            }
+        }
         const navItems = document.querySelectorAll('.nav-item');
         const tabPanes = document.querySelectorAll('.tab-pane');
         const carouselContainer = document.getElementById('carousel-cards-container');
@@ -2021,6 +2590,168 @@
 
         let activeBubbleInterval = 400;
 
+        // Build 3D Can Thumbnail for Carousel Cards
+        function generateCardThumbnailDataUrl(product) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 160;
+            canvas.height = 270;
+            const ctx = canvas.getContext('2d');
+
+            const canX = 20, canY = 15, canW = 120, canH = 240, r = 14;
+            const cx = canX + canW / 2;
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.roundRect(canX, canY, canW, canH, r);
+            ctx.clip();
+
+            // Base metallic gradient
+            const grad = ctx.createLinearGradient(canX, 0, canX + canW, 0);
+            if (product.id === 'cola-next') {
+                grad.addColorStop(0, '#5a0410');
+                grad.addColorStop(0.2, '#c8102e');
+                grad.addColorStop(0.5, '#ea1d40');
+                grad.addColorStop(0.8, '#c8102e');
+                grad.addColorStop(1, '#5a0410');
+            } else if (product.id === 'zero-next') {
+                grad.addColorStop(0, '#0a0a0a');
+                grad.addColorStop(0.2, '#1a1a1a');
+                grad.addColorStop(0.5, '#2c2c2c');
+                grad.addColorStop(0.8, '#1a1a1a');
+                grad.addColorStop(1, '#0a0a0a');
+            } else if (product.id === 'fizup-next') {
+                grad.addColorStop(0, '#013a20');
+                grad.addColorStop(0.2, '#027a42');
+                grad.addColorStop(0.5, '#05a85c');
+                grad.addColorStop(0.8, '#027a42');
+                grad.addColorStop(1, '#013a20');
+            } else {
+                grad.addColorStop(0, '#8c2502');
+                grad.addColorStop(0.2, '#ea580c');
+                grad.addColorStop(0.5, '#fb923c');
+                grad.addColorStop(0.8, '#ea580c');
+                grad.addColorStop(1, '#8c2502');
+            }
+            ctx.fillStyle = grad;
+            ctx.fillRect(canX, canY, canW, canH);
+
+            // Specular sheen
+            const sheen = ctx.createLinearGradient(canX + 35, 0, canX + 75, 0);
+            sheen.addColorStop(0, 'rgba(255,255,255,0)');
+            sheen.addColorStop(0.5, 'rgba(255,255,255,0.22)');
+            sheen.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.fillStyle = sheen;
+            ctx.fillRect(canX, canY, canW, canH);
+
+            // Top aluminum rim
+            const rimTop = ctx.createLinearGradient(canX, 0, canX + canW, 0);
+            rimTop.addColorStop(0, '#9ca3af');
+            rimTop.addColorStop(0.5, '#f3f4f6');
+            rimTop.addColorStop(1, '#9ca3af');
+            ctx.fillStyle = rimTop;
+            ctx.fillRect(canX, canY, canW, 22);
+
+            // Bottom aluminum rim
+            ctx.fillStyle = rimTop;
+            ctx.fillRect(canX, canY + canH - 20, canW, 20);
+
+            // Rim shadows
+            ctx.fillStyle = 'rgba(0,0,0,0.35)';
+            ctx.fillRect(canX, canY + 20, canW, 3);
+            ctx.fillRect(canX, canY + canH - 23, canW, 3);
+
+            // Brand Typography
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.82)';
+            ctx.font = 'bold 7px Inter, sans-serif';
+            ctx.fillText('MEZAN BEVERAGES', cx, canY + 38);
+
+            if (product.id === 'cola-next') {
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 32px Galada, cursive';
+                ctx.fillText('Cola', cx, canY + 85);
+
+                ctx.fillStyle = '#f59e0b';
+                ctx.beginPath();
+                ctx.roundRect(cx - 30, canY + 98, 60, 20, 10);
+                ctx.fill();
+                ctx.fillStyle = '#1e0508';
+                ctx.font = '900 12px Inter, sans-serif';
+                ctx.fillText('NEXT', cx, canY + 113);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 8px Inter, sans-serif';
+                ctx.fillText('ORIGINAL TASTE', cx, canY + 135);
+            } else if (product.id === 'zero-next') {
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 28px Galada, cursive';
+                ctx.fillText('Cola', cx, canY + 80);
+
+                ctx.fillStyle = '#ef4444';
+                ctx.font = '900 22px Inter, sans-serif';
+                ctx.fillText('ZERO', cx, canY + 106);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.roundRect(cx - 26, canY + 114, 52, 16, 8);
+                ctx.fill();
+                ctx.fillStyle = '#000000';
+                ctx.font = '900 10px Inter, sans-serif';
+                ctx.fillText('NEXT', cx, canY + 126);
+
+                ctx.fillStyle = '#ef4444';
+                ctx.font = 'bold 8px Inter, sans-serif';
+                ctx.fillText('SUGAR FREE', cx, canY + 145);
+            } else if (product.id === 'fizup-next') {
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'italic 900 30px Inter, sans-serif';
+                ctx.fillText('Fizup', cx, canY + 85);
+
+                ctx.fillStyle = '#bef264';
+                ctx.beginPath();
+                ctx.roundRect(cx - 30, canY + 98, 60, 20, 10);
+                ctx.fill();
+                ctx.fillStyle = '#064e3b';
+                ctx.font = '900 12px Inter, sans-serif';
+                ctx.fillText('NEXT', cx, canY + 113);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 8px Inter, sans-serif';
+                ctx.fillText('LEMON & LIME', cx, canY + 135);
+            } else {
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 30px Outfit, sans-serif';
+                ctx.fillText('Rango', cx, canY + 85);
+
+                ctx.fillStyle = '#fef08a';
+                ctx.beginPath();
+                ctx.roundRect(cx - 30, canY + 98, 60, 20, 10);
+                ctx.fill();
+                ctx.fillStyle = '#9a3412';
+                ctx.font = '900 12px Inter, sans-serif';
+                ctx.fillText('NEXT', cx, canY + 113);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 8px Inter, sans-serif';
+                ctx.fillText('ZESTY ORANGE', cx, canY + 135);
+            }
+
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+            ctx.beginPath();
+            ctx.roundRect(cx - 26, canY + 155, 52, 14, 7);
+            ctx.fill();
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 7px Inter, sans-serif';
+            ctx.fillText('250 ml', cx, canY + 165);
+
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.font = 'bold 8px Inter, sans-serif';
+            ctx.fillText('🌙 100% HALAL', cx, canY + 195);
+
+            ctx.restore();
+            return canvas.toDataURL('image/png');
+        }
+
         // Build Product Cards in Carousel
         function renderCarouselCards() {
             carouselContainer.innerHTML = '';
@@ -2030,10 +2761,10 @@
                 card.dataset.index = idx;
                 card.dataset.productId = prod.id;
 
-                // Create a small preview can canvas
+                // Create a sleek preview can thumbnail
                 const previewImg = document.createElement('img');
                 previewImg.className = 'card-can-canvas';
-                previewImg.src = generateCanLabelDataUrl(prod);
+                previewImg.src = generateCardThumbnailDataUrl(prod);
                 previewImg.alt = prod.name;
 
                 const info = document.createElement('div');
@@ -2054,14 +2785,13 @@
         }
 
         // Pre-generate & Warm up PBR textures for all 4 Cola Next beverages
-        modelViewer.addEventListener('load', async () => {
+        async function applyCanTextures() {
             try {
                 for (const prod of COLA_NEXT_PRODUCTS) {
                     const dataUrl = generateCanLabelDataUrl(prod);
                     productTextures[prod.id] = await modelViewer.createTexture(dataUrl);
                 }
 
-                // Apply initial Cola Next texture
                 if (modelViewer.model && productTextures['cola-next']) {
                     const material = modelViewer.model.materials[0];
                     if (material && material.pbrMetallicRoughness.baseColorTexture) {
@@ -2071,13 +2801,21 @@
             } catch (err) {
                 console.error("Texture compilation error:", err);
             }
-        });
+        }
+
+        if (modelViewer.loaded) {
+            applyCanTextures();
+        } else {
+            modelViewer.addEventListener('load', applyCanTextures);
+        }
 
         // -------------------------------------------------------------
         // PRODUCT SWITCHING WITH 720° SPIN & DYNAMIC CONTENT UPDATE
         // -------------------------------------------------------------
-        async function selectProduct(index) {
+        async function selectProduct(target) {
             if (isSwitching) return;
+            const index = typeof target === 'number' ? target : COLA_NEXT_PRODUCTS.findIndex(p => p.id === target);
+            if (index < 0 || index >= COLA_NEXT_PRODUCTS.length) return;
             isSwitching = true;
             currentProductIndex = index;
             const product = COLA_NEXT_PRODUCTS[index];
@@ -2098,6 +2836,9 @@
                 duration: 1.4,
                 ease: 'power2.inOut'
             });
+
+            // Rebuild 3D floating props for new flavor
+            rebuildPropsForProduct(product);
 
             // 2. Can Spin Animation
             const spinObj = { val: 0, blur: 0 };
@@ -2292,9 +3033,12 @@
             activeBubbleInterval = coords.bubbleRate;
 
             // 4. Adapt floating props (Translucent see-through on other tabs)
-            gsap.to(berriesFG, { opacity: coords.berryAlpha, duration: 0.6 });
-            gsap.to(berriesBG, { opacity: coords.berryAlpha, duration: 0.6 });
-            gsap.to(leavesBG, { opacity: tabId === 'eco' ? 1 : 0.45, duration: 0.6 });
+            if (propsCanvas) {
+                gsap.to(propsCanvas, { opacity: coords.berryAlpha, duration: 0.6 });
+            }
+            if (leavesBG) {
+                gsap.to(leavesBG, { opacity: tabId === 'eco' ? 1 : 0.45, duration: 0.6 });
+            }
         }
 
         navItems.forEach(item => {
@@ -2378,11 +3122,6 @@
         // -------------------------------------------------------------
         // MAIN ANIMATION LOOP & PHYSICS
         // -------------------------------------------------------------
-        allBerries.forEach(b => {
-            b.dataset.rx = 0; b.dataset.ry = 0; b.dataset.angle = Math.random() * 360;
-            b.dataset.baseX = 0; b.dataset.baseY = 0;
-        });
-
         let mouse = { x: 0, y: 0, px: 0, py: 0 };
         let currentMouse = { x: 0, y: 0 };
 
@@ -2417,55 +3156,27 @@
             const finalElevation = currentOrbitElevation + (currentMouse.y * 20);
             modelViewer.cameraOrbit = `${finalAzimuth}deg ${finalElevation}deg ${currentOrbitDistance}%`;
 
-            // Update parallax containers
-            berriesFG.style.transform = `translate(${currentMouse.x * 60}px, ${currentMouse.y * 60}px)`;
-            berriesBG.style.transform = `translate(${currentMouse.x * -30}px, ${currentMouse.y * -30}px)`;
-            leavesBG.style.transform = `translate(${currentMouse.x * -15}px, ${currentMouse.y * -15}px)`;
+            // Update Three.js 3D Flavour Floating Props
+            if (propsRenderer && propsScene && propsCamera && propsGroup) {
+                propsGroup.position.x += ((currentMouse.x * 3.5) - propsGroup.position.x) * 0.05;
+                propsGroup.position.y += ((-currentMouse.y * 2.5) - propsGroup.position.y) * 0.05;
 
-            // Update berry repulsion and sinusoidal floating
-            if (!isSwitching) {
-                allBerries.forEach((berry, i) => {
-                    const berryRect = berry.getBoundingClientRect();
-                    const berryX = berryRect.left + berryRect.width / 2;
-                    const berryY = berryRect.top + berryRect.height / 2;
-
-                    const diffX = mouse.px - berryX;
-                    const diffY = mouse.py - berryY;
-                    const distance = Math.sqrt(diffX * diffX + diffY * diffY);
-
-                    let targetRx = 0, targetRy = 0, speedMult = 1;
-
-                    if (distance < 400) {
-                        const force = (400 - distance) / 400;
-                        targetRx = (diffX / distance) * force * -80;
-                        targetRy = (diffY / distance) * force * -80;
-                        speedMult = 1 + force * 5;
-                    }
-
-                    let rx = parseFloat(berry.dataset.rx) || 0;
-                    let ry = parseFloat(berry.dataset.ry) || 0;
-                    let angle = parseFloat(berry.dataset.angle) || 0;
-                    let baseX = parseFloat(berry.dataset.baseX) || 0;
-                    let baseY = parseFloat(berry.dataset.baseY) || 0;
-
-                    rx += (targetRx - rx) * 0.1;
-                    ry += (targetRy - ry) * 0.1;
-                    angle += 0.2 * speedMult;
-
-                    berry.dataset.rx = rx;
-                    berry.dataset.ry = ry;
-                    berry.dataset.angle = angle;
-
-                    const dur = [5, 7, 6, 8, 5.5, 6.5, 9, 11, 10][i % 9];
-                    const phase = (time + i * 0.7) * (Math.PI * 2 / dur);
-                    const floatY = Math.sin(phase) * 15;
-                    const floatAngle = Math.cos(phase) * 6;
-
-                    berry.style.transform = `translate(calc(${rx + baseX}px), calc(${ry + baseY}px + ${floatY}px)) rotate(calc(${angle}deg + ${floatAngle}deg))`;
+                propsItems.forEach(item => {
+                    item.mesh.rotation.x += item.rotSpeedX;
+                    item.mesh.rotation.y += item.rotSpeedY;
+                    item.mesh.rotation.z += item.rotSpeedZ;
+                    const floatY = Math.sin(time * item.floatSpeed + item.floatPhase) * item.floatAmp;
+                    item.mesh.position.y = item.baseY + floatY;
                 });
+
+                propsRenderer.render(propsScene, propsCamera);
             }
 
             // Update leaves floating motion
+            if (leavesBG) {
+                leavesBG.style.transform = `translate(${currentMouse.x * -15}px, ${currentMouse.y * -15}px)`;
+            }
+
             document.querySelectorAll('.leaf').forEach((leaf, i) => {
                 const dur = 10 + i * 2;
                 const phase = (time + i * 1.2) * (Math.PI * 2 / dur);
@@ -2509,7 +3220,8 @@
         }
         scheduleNextBubble();
 
-        // Initialize Carousel on page boot
+        // Initialize 3D Floating Props & Carousel on page boot
+        initFloatingProps();
         renderCarouselCards();
         updateProductContent(COLA_NEXT_PRODUCTS[0]);
     </script>
