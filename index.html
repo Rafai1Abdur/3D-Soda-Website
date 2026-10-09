@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diet Soda | Pure Zero Refreshment</title>
-    <meta name="description" content="Experience the crisp, clean taste of Diet Soda. Zero sugar, zero compromise.">
+    <title>Cola Next | Pakistan's Homegrown Refreshment | Mezan Beverages</title>
+    <meta name="description" content="Experience the authentic, crisp taste of Cola Next, Fizup Next, Zero Next, and Rango Next. Proudly crafted in Pakistan by Mezan Beverages.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Galada&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Galada&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
@@ -21,13 +21,13 @@
             --font-main: 'Inter', sans-serif;
             --font-heading: 'Galada', cursive;
             --font-nav: 'Manrope', sans-serif;
-            --pink-accent: #fbcfe8;
-            --pink-dark: #011d17;
+            --brand-accent: #fbcfe8;
+            --brand-dark: #011d17;
 
-            /* Dynamic Background Variables */
-            --bg-inner: #0b8a78;
-            --bg-mid: #044e3b;
-            --bg-outer: #011411;
+            /* Dynamic Background Variables - Default Cola Next Crimson */
+            --bg-inner: #c8102e;
+            --bg-mid: #5c0715;
+            --bg-outer: #1a0205;
         }
 
         * {
@@ -44,12 +44,6 @@
             height: 100vh;
             transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             user-select: none;
-        }
-
-        body.blue-theme {
-            --bg-inner: #0b4f8a;
-            --bg-mid: #04294e;
-            --bg-outer: #010c14;
         }
 
         /* 1. Bubbles Container */
@@ -98,13 +92,45 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.7rem;
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             font-family: var(--font-heading);
             color: white;
             cursor: pointer;
             text-decoration: none;
+        }
+
+        .logo-emblem {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #c8102e, #e52d27);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(200, 16, 46, 0.4);
+        }
+
+        .logo-text-wrap {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo-title {
+            font-size: 1.35rem;
+            color: white;
+        }
+
+        .logo-sub {
+            font-size: 0.65rem;
+            font-family: var(--font-main);
+            letter-spacing: 0.15em;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            font-weight: 600;
         }
 
         .nav {
@@ -143,8 +169,8 @@
         }
 
         .nav-item.active {
-            background: var(--pink-accent);
-            color: var(--pink-dark);
+            background: var(--brand-accent);
+            color: var(--brand-dark);
             font-weight: 700;
             box-shadow: 0 4px 15px rgba(251, 207, 232, 0.3);
         }
@@ -200,7 +226,7 @@
             opacity: 0;
             animation: fadeIn 1.5s ease-out 0.3s forwards, float 6s ease-in-out infinite;
             pointer-events: none;
-            background: radial-gradient(circle at center, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(200, 16, 46, 0.08) 0%, transparent 70%);
         }
 
         @keyframes fadeIn { to { opacity: 1; } }
@@ -253,7 +279,7 @@
         .l3 { top: 70%; left: 75%; width: 80px; height: 80px; }
         .l4 { top: 85%; left: 20%; width: 120px; height: 120px; opacity: 0.3; }
 
-        /* Floating Berries */
+        /* Floating Berries / Flavor Spheres */
         .berries-container {
             position: absolute;
             top: 0;
@@ -348,7 +374,7 @@
             padding: 5rem 0 3rem 0;
             gap: 1.5rem;
             z-index: 100;
-            max-width: 480px;
+            max-width: 490px;
         }
 
         .tab-right {
@@ -368,7 +394,7 @@
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 0.2em;
-            color: var(--pink-accent);
+            color: var(--brand-accent);
             text-transform: uppercase;
             font-family: var(--font-nav);
             margin-bottom: -0.5rem;
@@ -404,7 +430,7 @@
             color: var(--muted-color);
             font-size: 1.05rem;
             line-height: 1.6;
-            max-width: 420px;
+            max-width: 440px;
         }
 
         .primary-btn {
@@ -429,8 +455,8 @@
         }
 
         .plus-icon {
-            background: var(--pink-accent);
-            color: var(--pink-dark);
+            background: var(--brand-accent);
+            color: var(--brand-dark);
             width: 38px;
             height: 38px;
             display: flex;
@@ -459,6 +485,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #fbbf24;
         }
 
         .award-text { display: flex; flex-direction: column; }
@@ -474,33 +501,40 @@
             height: 100%;
             padding: 5.5rem 0 3.5rem 0;
             z-index: 100;
-            width: 450px;
+            width: 520px;
             pointer-events: none;
         }
 
         .product-carousel {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.2rem;
             align-items: flex-end;
             pointer-events: auto;
         }
 
-        .carousel-cards { display: flex; gap: 1rem; }
+        .carousel-cards-viewport {
+            overflow: visible;
+        }
+
+        .carousel-cards {
+            display: flex;
+            gap: 0.85rem;
+        }
 
         .card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            padding: 1rem;
-            padding-top: 5rem;
-            border-radius: 28px;
+            padding: 0.9rem;
+            padding-top: 4.5rem;
+            border-radius: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1.2rem;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            width: 135px;
+            width: 115px;
             position: relative;
             backdrop-filter: blur(10px);
             text-align: center;
@@ -509,41 +543,42 @@
         .card:hover {
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-4px);
         }
 
         .card.active {
-            border-color: var(--pink-accent);
-            border-width: 1px;
-            background: var(--glass-bg);
-            box-shadow: 0 0 25px rgba(251, 207, 232, 0.15);
+            border-color: var(--brand-accent);
+            border-width: 1.5px;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 25px rgba(251, 207, 232, 0.25);
         }
 
-        .card img {
-            width: 140px;
-            height: auto;
-            margin-top: -8rem;
-            filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.5));
+        .card-can-canvas {
+            width: 75px;
+            height: 120px;
+            margin-top: -6.5rem;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.5));
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
             display: block;
-            will-change: transform;
             pointer-events: none;
+            border-radius: 8px;
         }
 
-        .card:hover img {
-            transform: translateY(-30px) rotate(-12deg) scale(1.15) !important;
+        .card:hover .card-can-canvas {
+            transform: translateY(-20px) rotate(-10deg) scale(1.12) !important;
         }
 
         .card-info {
             display: flex;
             flex-direction: column;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             width: 100%;
         }
 
-        .card-info span:first-child { font-weight: 600; }
-        .card-info span:last-child { color: var(--muted-color); }
+        .card-info span:first-child { font-weight: 700; white-space: nowrap; }
+        .card-info span:last-child { color: var(--muted-color); font-weight: 500; }
 
-        .carousel-nav { display: flex; gap: 0.8rem; }
+        .carousel-nav { display: flex; gap: 0.8rem; align-items: center; }
 
         .nav-arrow {
             background: var(--glass-bg);
@@ -571,7 +606,7 @@
         .ingredient-deck {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.9rem;
             width: 100%;
             margin-top: 1rem;
         }
@@ -580,7 +615,7 @@
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 1.2rem 1.4rem;
+            padding: 1.1rem 1.4rem;
             backdrop-filter: blur(16px);
             text-align: left;
             transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -597,11 +632,11 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.3rem;
         }
 
         .ing-icon {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             width: 32px;
             height: 32px;
             display: flex;
@@ -613,7 +648,7 @@
 
         .ing-name {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: white;
         }
 
@@ -621,14 +656,14 @@
             font-size: 0.85rem;
             color: var(--muted-color);
             line-height: 1.5;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
         .ing-tag {
             display: inline-block;
             font-size: 0.7rem;
             font-weight: 600;
-            color: var(--pink-accent);
+            color: var(--brand-accent);
             background: rgba(251, 207, 232, 0.1);
             border: 1px solid rgba(251, 207, 232, 0.2);
             padding: 0.2rem 0.6rem;
@@ -640,7 +675,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 0.8rem;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.45);
             border: 1px solid var(--glass-border);
             padding: 0.8rem 1.4rem;
             border-radius: 100px;
@@ -652,7 +687,14 @@
             margin-top: auto;
         }
 
-        .purity-badge .dot { color: var(--pink-accent); font-weight: 900; }
+        .purity-badge .dot { color: var(--brand-accent); font-weight: 900; }
+
+        .disclaimer-pill {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 0.4rem;
+            display: block;
+        }
 
         /* ========================================================
            TAB 2: TASTE SPECIFIC STYLES
@@ -689,7 +731,7 @@
 
         .sensory-fill {
             height: 100%;
-            background: linear-gradient(90deg, #10b981, var(--pink-accent));
+            background: linear-gradient(90deg, #c8102e, var(--brand-accent));
             border-radius: 100px;
             transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -704,7 +746,7 @@
         }
 
         .flavor-notes-box h4 {
-            color: var(--pink-accent);
+            color: var(--brand-accent);
             font-size: 0.85rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
@@ -753,7 +795,7 @@
 
         .pairings-list li::before {
             content: "✦";
-            color: var(--pink-accent);
+            color: var(--brand-accent);
             font-size: 0.8rem;
         }
 
@@ -834,7 +876,7 @@
         }
 
         .calc-slider-val {
-            color: var(--pink-accent);
+            color: var(--brand-accent);
             font-weight: 700;
             font-size: 1rem;
         }
@@ -853,7 +895,7 @@
             width: 22px;
             height: 22px;
             border-radius: 50%;
-            background: var(--pink-accent);
+            background: var(--brand-accent);
             cursor: pointer;
             box-shadow: 0 0 10px rgba(251, 207, 232, 0.5);
             transition: transform 0.2s;
@@ -878,7 +920,7 @@
         .calc-stat-num {
             font-size: 1.35rem;
             font-weight: 800;
-            color: var(--pink-accent);
+            color: var(--brand-accent);
             display: block;
         }
 
@@ -933,7 +975,7 @@
         .review-author {
             font-size: 0.8rem;
             font-weight: 600;
-            color: var(--pink-accent);
+            color: var(--brand-accent);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -962,7 +1004,7 @@
             font-size: 0.75rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--pink-accent);
+            color: var(--brand-accent);
             margin-bottom: 1rem;
         }
 
@@ -1000,7 +1042,7 @@
         .drawer-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(0, 0, 0, 0.65);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 300;
@@ -1019,11 +1061,11 @@
             top: 0;
             right: 0;
             width: 100%;
-            max-width: 480px;
+            max-width: 490px;
             height: 100vh;
-            background: rgba(10, 15, 14, 0.88);
+            background: rgba(18, 5, 8, 0.92);
             border-left: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(35px);
             -webkit-backdrop-filter: blur(35px);
             z-index: 310;
@@ -1072,7 +1114,7 @@
         .drawer-tag {
             font-size: 0.75rem;
             letter-spacing: 0.2em;
-            color: var(--pink-accent);
+            color: var(--brand-accent);
             font-weight: 700;
         }
 
@@ -1124,21 +1166,21 @@
         }
 
         .form-group select option {
-            background: #04294e;
+            background: #2a0810;
             color: white;
         }
 
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: var(--pink-accent);
+            border-color: var(--brand-accent);
             background: rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 15px rgba(251, 207, 232, 0.2);
         }
 
         .drawer-submit-btn {
-            background: var(--pink-accent);
-            color: var(--pink-dark);
+            background: var(--brand-accent);
+            color: var(--brand-dark);
             border: none;
             padding: 0.9rem 1.8rem;
             border-radius: 100px;
@@ -1204,12 +1246,16 @@
 
     <!-- 2. Header & Glass Navigation -->
     <header class="header">
-        <a href="#" class="logo" data-nav="home">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
-                <path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
-            <span>Soda</span>
+        <a href="#home" class="logo" data-nav="home">
+            <div class="logo-emblem">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15 9L22 9L16 14L18 21L12 17L6 21L8 14L2 9L9 9L12 2Z" fill="white" />
+                </svg>
+            </div>
+            <div class="logo-text-wrap">
+                <span class="logo-title">Cola Next</span>
+                <span class="logo-sub">Mezan Beverages</span>
+            </div>
         </a>
         <nav class="nav glass">
             <a href="#home" class="nav-item active" data-tab="home">Home</a>
@@ -1238,61 +1284,51 @@
             ============================================== -->
             <div class="tab-pane active" id="tab-home">
                 <div class="hero-left">
-                    <h1 class="main-title">
-                        <span class="outline">Pure</span><br>
-                        Zero
+                    <h1 class="main-title" id="home-main-title">
+                        <span class="outline">Bold</span><br>
+                        Next
                     </h1>
-                    <p class="description">
-                        Unleash the crisp taste of zero sugar. <br>
-                        Refreshment redefined in every bubble — <br>
-                        all in one sleek design.
+                    <p class="description" id="home-description">
+                        Pakistan's premier homegrown cola. Cold-crafted with <br>
+                        international-standard carbonation, rich caramel body, <br>
+                        and an unmistakably crisp national heartbeat.
                     </p>
                     <div class="cta-group">
                         <button class="primary-btn" id="home-shop-btn">
-                            Shop Now
+                            Taste Profile
                             <span class="plus-icon">+</span>
                         </button>
                     </div>
                     <div class="award-badge">
                         <div class="award-icon">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 15L15 18L19 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                             </svg>
                         </div>
                         <div class="award-text">
-                            <span class="award-title">DESIGN AWARDS</span>
-                            <span class="award-subtitle">PREMIUM BEVERAGE 2025</span>
+                            <span class="award-title" id="home-badge-title">PAKISTAN'S HOMEGROWN BRAND</span>
+                            <span class="award-subtitle" id="home-badge-sub">MEZAN BEVERAGES • SINCE 2016</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="hero-right">
                     <div class="product-carousel">
-                        <div class="carousel-cards">
-                            <div class="card active" data-flavor="classic">
-                                <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/Green%20Soda.png" alt="Diet Classic">
-                                <div class="card-info">
-                                    <span>Diet Classic</span>
-                                    <span>$2.99</span>
-                                </div>
-                            </div>
-                            <div class="card" data-flavor="blue">
-                                <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/Blue%20Soda.png" alt="Zero Lime" style="filter: brightness(0.7);">
-                                <div class="card-info">
-                                    <span>Zero Lime</span>
-                                    <span>$2.99</span>
-                                </div>
+                        <div class="carousel-cards-viewport">
+                            <div class="carousel-cards" id="carousel-cards-container">
+                                <!-- Generated Dynamically in JS for 4 Cola Next Products -->
                             </div>
                         </div>
                         <div class="carousel-nav">
-                            <button class="nav-arrow" id="carousel-prev" aria-label="Previous Flavor">←</button>
-                            <button class="nav-arrow" id="carousel-next" aria-label="Next Flavor">→</button>
+                            <button class="nav-arrow" id="carousel-prev" aria-label="Previous Product">←</button>
+                            <span style="font-size: 0.75rem; color: var(--muted-color); font-weight: 600;" id="carousel-counter">1 / 4</span>
+                            <button class="nav-arrow" id="carousel-next" aria-label="Next Product">→</button>
                         </div>
                     </div>
-                    <h2 class="side-title">
-                        <span class="outline">Refreshingly</span><br>
-                        Clean
+                    <h2 class="side-title" id="home-side-title">
+                        <span class="outline">Pakistan's</span><br>
+                        Heartbeat
                     </h2>
                 </div>
             </div>
@@ -1302,48 +1338,24 @@
             ============================================== -->
             <div class="tab-pane" id="tab-ingredients">
                 <div class="tab-left">
-                    <span class="tab-badge">[ 01 — THE FORMULA ]</span>
-                    <h2 class="tab-title">Pure Botanicals.<br><span class="outline">Zero Noise.</span></h2>
-                    <p class="tab-desc">Every batch is cold-crafted with uncompromised botanicals and pure alpine water. No synthetic dyes, no aspartame headaches.</p>
-                    <div class="purity-badge">
-                        <span>⚡ 0 Calories</span>
+                    <span class="tab-badge" id="ing-badge">[ 01 — THE FORMULA ]</span>
+                    <h2 class="tab-title" id="ing-main-title">Crafted Pure.<br><span class="outline">Zero Compromise.</span></h2>
+                    <p class="tab-desc" id="ing-desc-text">Manufactured under ISO 22000 and Halal-certified standards by Mezan Beverages. Every ingredient is lab-verified for purity and carbonation retention.</p>
+                    <div class="purity-badge" id="ing-purity-pill">
+                        <span>⚡ 105 kcal</span>
                         <span class="dot">•</span>
-                        <span>🍬 0g Total Sugars</span>
+                        <span>🍬 26.5g Sugar</span>
                         <span class="dot">•</span>
-                        <span>🧂 15mg Pink Salt</span>
+                        <span>🧂 22mg Sodium</span>
                         <span class="dot">•</span>
-                        <span>🌱 100% Vegan & Non-GMO</span>
+                        <span>🌙 100% Halal Certified</span>
                     </div>
+                    <span class="disclaimer-pill">* Verified from manufacturer disclosures & packaging retail labels (Checked Oct 2026).</span>
                 </div>
 
                 <div class="tab-right">
-                    <div class="ingredient-deck">
-                        <div class="ingredient-card" id="card-ing-water">
-                            <div class="ingredient-card-header">
-                                <span class="ing-icon">💧</span>
-                                <span class="ing-name">Alpine Mineral Spring Water</span>
-                            </div>
-                            <p class="ing-desc">Sourced at 2,400m elevation. Micro-carbonated for a velvety, tight effervescence that refreshes without sharp burning.</p>
-                            <span class="ing-tag">TDS 42mg/L • Crisp & Mineral Rich</span>
-                        </div>
-
-                        <div class="ingredient-card">
-                            <div class="ingredient-card-header">
-                                <span class="ing-icon">🍃</span>
-                                <span class="ing-name">Organic Monk Fruit & Stevia</span>
-                            </div>
-                            <p class="ing-desc">Calibrated molecular blend delivering sweet fruit notes without the bitter chemical tail of artificial sweeteners.</p>
-                            <span class="ing-tag">0g Glycemic Load • Keto Certified</span>
-                        </div>
-
-                        <div class="ingredient-card" id="card-ing-botanical">
-                            <div class="ingredient-card-header">
-                                <span class="ing-icon" id="ing-botanical-icon">🍒</span>
-                                <span class="ing-name" id="ing-botanical-title">Cold-Pressed Essence</span>
-                            </div>
-                            <p class="ing-desc" id="ing-botanical-desc">Tart Montmorency cherry skin infusion balanced with subtle Madagascar vanilla bean extract.</p>
-                            <span class="ing-tag" id="ing-botanical-tag">100% Real Fruit Extract</span>
-                        </div>
+                    <div class="ingredient-deck" id="ingredient-deck-container">
+                        <!-- Populated dynamically per active product -->
                     </div>
                 </div>
             </div>
@@ -1353,55 +1365,55 @@
             ============================================== -->
             <div class="tab-pane" id="tab-taste">
                 <div class="tab-left">
-                    <span class="tab-badge">[ 02 — SENSORY PROFILE ]</span>
-                    <h2 class="tab-title">Crisp Bite.<br><span class="outline">Pristine Finish.</span></h2>
-                    <p class="tab-desc">Micro-bubble carbonation calibrated for an immediate snappy burst that awakens the palate, followed by fruit oils that finish cleanly.</p>
+                    <span class="tab-badge">[ 02 — PALATE & SENSORY PROFILE ]</span>
+                    <h2 class="tab-title" id="taste-main-title">Snappy Fizz.<br><span class="outline">Rich Body.</span></h2>
+                    <p class="tab-desc" id="taste-desc-text">Calibrated carbonation pressure engineered to retain maximum effervescence even in hot Pakistani summers, followed by balanced sweetness and a clean finish.</p>
                     
                     <div class="sensory-matrix">
                         <div class="sensory-row">
                             <div class="sensory-meta">
                                 <span>Carbonation Fizz Index</span>
-                                <span style="color: var(--pink-accent)">9.5 / 10</span>
+                                <span style="color: var(--brand-accent)" id="metric-fizz-val">9.3 / 10</span>
                             </div>
-                            <div class="sensory-track"><div class="sensory-fill" style="width: 95%;"></div></div>
+                            <div class="sensory-track"><div class="sensory-fill" id="metric-fizz-bar" style="width: 93%;"></div></div>
                         </div>
                         <div class="sensory-row">
                             <div class="sensory-meta">
-                                <span>Crisp Citrus Acidity</span>
-                                <span style="color: var(--pink-accent)">8.4 / 10</span>
+                                <span>Crisp Acidity & Bite</span>
+                                <span style="color: var(--brand-accent)" id="metric-acid-val">7.6 / 10</span>
                             </div>
-                            <div class="sensory-track"><div class="sensory-fill" style="width: 84%;"></div></div>
+                            <div class="sensory-track"><div class="sensory-fill" id="metric-acid-bar" style="width: 76%;"></div></div>
                         </div>
                         <div class="sensory-row">
                             <div class="sensory-meta">
-                                <span>Fruit Sweetness Balance</span>
-                                <span style="color: var(--pink-accent)">7.2 / 10</span>
+                                <span>Sweetness Balance</span>
+                                <span style="color: var(--brand-accent)" id="metric-sweet-val">8.4 / 10</span>
                             </div>
-                            <div class="sensory-track"><div class="sensory-fill" style="width: 72%;"></div></div>
+                            <div class="sensory-track"><div class="sensory-fill" id="metric-sweet-bar" style="width: 84%;"></div></div>
                         </div>
                         <div class="sensory-row">
                             <div class="sensory-meta">
                                 <span>Clean Palate Finish</span>
-                                <span style="color: #10b981">9.9 / 10 (Zero Film)</span>
+                                <span style="color: #10b981" id="metric-clean-val">9.1 / 10</span>
                             </div>
-                            <div class="sensory-track"><div class="sensory-fill" style="width: 99%; background: #10b981;"></div></div>
+                            <div class="sensory-track"><div class="sensory-fill" id="metric-clean-bar" style="width: 91%; background: #10b981;"></div></div>
                         </div>
                     </div>
 
                     <div class="flavor-notes-box">
-                        <h4 id="taste-notes-flavor">Diet Classic Palette</h4>
-                        <p id="taste-notes-text">"Rich Bing cherry forward with light vanillin depth. Finishes crisp, tart, and completely weightless."</p>
+                        <h4 id="taste-notes-flavor">Cola Next Palate Notes</h4>
+                        <p id="taste-notes-text">"Bold caramelized sugar forward with a pleasant vanillin background and an energetic carbonation snap that pairs effortlessly with savoury cuisine."</p>
                     </div>
                 </div>
 
                 <div class="tab-right">
                     <div class="pairings-card">
-                        <h3>🍽️ Sommelier Pairings</h3>
-                        <ul class="pairings-list">
-                            <li>Spicy Korean fried chicken & street tacos</li>
-                            <li>Wood-fired Neapolitan Margherita pizza</li>
-                            <li>Artisanal sharp white cheddar & cured meats</li>
-                            <li>Ice-cold post-workout afternoon refresh</li>
+                        <h3>🍽️ Pakistani Cuisine Pairings</h3>
+                        <ul class="pairings-list" id="taste-pairings-list">
+                            <li>Karachi Dum Biryani with chilled Raita</li>
+                            <li>Peshawari Chapli Kebab with warm Naan</li>
+                            <li>Crispy Broast with spicy garlic mayo</li>
+                            <li>Late-night cricket watch party snack spread</li>
                         </ul>
                     </div>
                 </div>
@@ -1412,34 +1424,34 @@
             ============================================== -->
             <div class="tab-pane" id="tab-eco">
                 <div class="tab-left">
-                    <span class="tab-badge">[ 03 — PLANET POSITIVE ]</span>
-                    <h2 class="tab-title">Infinitely Recycled.<br><span class="outline">Zero Plastic.</span></h2>
-                    <p class="tab-desc">Single-use plastic bottles take 450 years to degrade into microplastics. Our cold-rolled aluminum cans cycle back to grocery shelves in under 60 days.</p>
+                    <span class="tab-badge">[ 03 — PLANET & PACKAGING ]</span>
+                    <h2 class="tab-title">Lightweight PET.<br><span class="outline">100% Circular.</span></h2>
+                    <p class="tab-desc">In July 2025, Cola Next pioneered an industry-first bottle in Pakistan cutting plastic weight by 8–10% using advanced 26/22 short-neck caps. All 250ml slim aluminum cans are 100% infinitely recyclable.</p>
                     
                     <div class="eco-grid">
                         <div class="eco-card">
-                            <h4>♻️ 100% Circular Aluminum</h4>
-                            <p>Aluminum recycles indefinitely without loss of tensile strength, using 95% less energy than primary smelting.</p>
+                            <h4>♻️ 26/22 Cap Innovation</h4>
+                            <p>Transitioned from traditional 1881 caps to ultra-light 26/22 neck closures, reducing plastic closure weight while sealing in carbonation.</p>
                         </div>
                         <div class="eco-card">
-                            <h4>🌿 -45% Freight Emissions</h4>
-                            <p>Weighs 80% less than glass bottles, dramatically shrinking fleet carbon footprint across national transport.</p>
+                            <h4>⚡ Solar-Powered Bottling</h4>
+                            <p>Mezan Beverages manufacturing lines utilize rooftop solar installations to offset manufacturing grid emissions.</p>
                         </div>
                         <div class="eco-card">
-                            <h4>💧 1% for Glacial Watersheds</h4>
-                            <p>One percent of every can sold directly funds alpine stream restoration and plastic removal initiatives.</p>
+                            <h4>🥫 100% Recyclable Aluminum</h4>
+                            <p>Our 250ml slim cans support continuous closed-loop recycling through Pakistan's industrial and domestic metal reclamation networks.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="tab-right">
                     <div class="calc-card">
-                        <h3>📊 Your Plastic Diversion</h3>
-                        <p class="calc-subtitle">See your personal environmental footprint reduction:</p>
+                        <h3>📊 Your Plastic Diversion Calculator</h3>
+                        <p class="calc-subtitle">See your environmental impact by choosing lightweight Mezan PET and aluminum cans:</p>
                         
                         <div class="calc-slider-wrap">
                             <div class="calc-slider-header">
-                                <span>Sodas per week:</span>
+                                <span>Cans / bottles enjoyed per week:</span>
                                 <span class="calc-slider-val" id="calc-cans-display">6 Cans</span>
                             </div>
                             <input type="range" min="1" max="24" value="6" class="calc-range" id="calc-range-input">
@@ -1448,19 +1460,19 @@
                         <div class="calc-results-grid">
                             <div class="calc-stat">
                                 <span class="calc-stat-num" id="calc-bottles-saved">312</span>
-                                <span class="calc-stat-label">PET Bottles Diverted / yr</span>
+                                <span class="calc-stat-label">Units Enjoyed / yr</span>
                             </div>
                             <div class="calc-stat">
-                                <span class="calc-stat-num" id="calc-waste-saved">15.6 kg</span>
-                                <span class="calc-stat-label">Plastic Waste Prevented</span>
+                                <span class="calc-stat-num" id="calc-waste-saved">2.8 kg</span>
+                                <span class="calc-stat-label">Resin Plastic Saved</span>
                             </div>
                             <div class="calc-stat">
-                                <span class="calc-stat-num" id="calc-co2-saved">28.1 kg</span>
-                                <span class="calc-stat-label">CO₂ Equivalent Saved</span>
+                                <span class="calc-stat-num" id="calc-co2-saved">18.4 kg</span>
+                                <span class="calc-stat-label">CO₂ Equivalent Offset</span>
                             </div>
                             <div class="calc-stat">
                                 <span class="calc-stat-num" style="color: #10b981;">100%</span>
-                                <span class="calc-stat-label">Circular Packaging</span>
+                                <span class="calc-stat-label">Recyclable Can</span>
                             </div>
                         </div>
                     </div>
@@ -1472,44 +1484,29 @@
             ============================================== -->
             <div class="tab-pane" id="tab-reviews">
                 <div class="tab-left">
-                    <span class="tab-badge">[ 04 — VERIFIED REVIEWS ]</span>
-                    <h2 class="tab-title">Pure Acclaim.<br><span class="outline">Real Verdicts.</span></h2>
-                    <p class="tab-desc">Rated <strong>4.9 / 5.0</strong> stars by over 14,200+ soda purists who demanded delicious zero-sugar refreshment without chemical compromises.</p>
+                    <span class="tab-badge">[ 04 — VERIFIED CONSUMER FEEDBACK ]</span>
+                    <h2 class="tab-title">National Acclaim.<br><span class="outline">Real Reviews.</span></h2>
+                    <p class="tab-desc">Rated <strong>4.7 / 5.0</strong> across 8,500+ verified customer reviews on major Pakistani retail platforms. Consumers consistently praise value, fizz retention, and homegrown quality.</p>
                     
-                    <div class="reviews-deck">
-                        <div class="review-card-item">
-                            <div class="review-stars">★★★★★</div>
-                            <p class="review-quote">"Finally, a diet soda that doesn't taste like an industrial lab experiment. The cherry balance is breathtaking, and zero aspartame headaches."</p>
-                            <div class="review-author">
-                                <span>Marcus V. • Verified Purchaser</span>
-                                <span class="review-tag">Diet Classic Fan</span>
-                            </div>
-                        </div>
-                        <div class="review-card-item">
-                            <div class="review-stars">★★★★★</div>
-                            <p class="review-quote">"Zero Lime completely replaced my afternoon energy drink. Crisp carbonation bite, electric lime peel oils, and zero crash."</p>
-                            <div class="review-author">
-                                <span>Sarah L. • Verified Purchaser</span>
-                                <span class="review-tag">Zero Lime Fan</span>
-                            </div>
-                        </div>
+                    <div class="reviews-deck" id="reviews-deck-container">
+                        <!-- Populated dynamically -->
                     </div>
                 </div>
 
                 <div class="tab-right">
                     <div class="press-critics-card">
-                        <h4>Critical Reception</h4>
+                        <h4>Consumer Sentiment Overview</h4>
                         <div class="press-item">
-                            <blockquote>"The holy grail of guilt-free soda craft. Tight effervescence and authentic fruit purity."</blockquote>
-                            <cite>— BEVERAGE WEEKLY</cite>
+                            <blockquote>"Cola Next proved that a Pakistani brand can produce an international-standard cola with crisp carbonation that pairs brilliantly with our food."</blockquote>
+                            <cite>— PAKISTANI CONSUMER FOOD FORUM</cite>
                         </div>
                         <div class="press-item">
-                            <blockquote>"Proof that zero sugar doesn't mean zero soul. A masterclass in clean beverage formulation."</blockquote>
-                            <cite>— GASTRONOMY TODAY</cite>
+                            <blockquote>"Zero Next is a standout in the local diet drink market. No aspartame aftertaste, crisp carbonation, and unbeatable local value."</blockquote>
+                            <cite>— KARACHI BEVERAGE REVIEW</cite>
                         </div>
                         <div class="press-item">
-                            <blockquote>"A sleek aluminum can housing what may be the cleanest carbonated drink on the market."</blockquote>
-                            <cite>— EPICUREAN CULTURE</cite>
+                            <blockquote>"Fizup and Rango bring genuine citrus punch. A proud, credible homegrown choice on wedding and Eid dinner tables."</blockquote>
+                            <cite>— TRADE CHRONICLE PAKISTAN</cite>
                         </div>
                     </div>
                 </div>
@@ -1524,7 +1521,7 @@
 
             <!-- 3d. Center product (the 3D can) -->
             <div class="hero-center">
-                <model-viewer id="product-model" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb" alt="Diet Soda 3D Model" camera-controls
+                <model-viewer id="product-model" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb" alt="Cola Next 3D Product" camera-controls
                     disable-zoom shadow-intensity="0" environment-image="neutral" exposure="1.5"
                     interaction-prompt="none" camera-orbit="0deg 90deg 380%" field-of-view="30deg"
                     class="main-product-3d">
@@ -1549,39 +1546,44 @@
     <aside class="contact-drawer" id="contact-drawer">
         <button class="drawer-close" id="close-contact-btn" aria-label="Close Contact Drawer">✕</button>
         <div class="drawer-content">
-            <span class="drawer-tag">[ GET IN TOUCH ]</span>
+            <span class="drawer-tag">[ MEZAN BEVERAGES CONNECT ]</span>
             <h3 class="drawer-title">Let’s Connect</h3>
-            <p class="drawer-desc">Questions regarding formula chemistry, wholesale distribution, or press collaborations? Send our botanical team a note.</p>
+            <p class="drawer-desc">Wholesale distribution, grocery stockist orders, institutional supply, or consumer feedback across Pakistan. We are here to serve.</p>
             
             <form class="contact-form" id="contact-form">
                 <div class="form-group">
                     <label for="c-name">Full Name</label>
-                    <input type="text" id="c-name" placeholder="Morgan Hayes" required>
+                    <input type="text" id="c-name" placeholder="Bilal Tariq" required>
                 </div>
                 <div class="form-group">
                     <label for="c-email">Email Address</label>
-                    <input type="email" id="c-email" placeholder="morgan@domain.com" required>
+                    <input type="email" id="c-email" placeholder="bilal@domain.pk" required>
                 </div>
                 <div class="form-group">
-                    <label for="c-topic">Topic</label>
+                    <label for="c-city">City / Region (Pakistan)</label>
+                    <input type="text" id="c-city" placeholder="Karachi, Lahore, Islamabad, etc." required>
+                </div>
+                <div class="form-group">
+                    <label for="c-topic">Inquiry Type</label>
                     <select id="c-topic">
-                        <option value="care">Customer Care & Feedback</option>
-                        <option value="wholesale">Wholesale & Grocery Distribution</option>
-                        <option value="press">Press & Media Sampling</option>
-                        <option value="careers">Careers & Brewing Labs</option>
+                        <option value="wholesale">Wholesale & Supermarket Distribution</option>
+                        <option value="care">Consumer Care & Quality Feedback</option>
+                        <option value="event">Wedding & Event Bulk Supply</option>
+                        <option value="corporate">Corporate / Institutional Inquiries</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="c-msg">Message</label>
-                    <textarea id="c-msg" rows="4" placeholder="How can we assist you today?" required></textarea>
+                    <textarea id="c-msg" rows="3" placeholder="Please describe your requirements..." required></textarea>
                 </div>
-                <button type="submit" class="drawer-submit-btn">Send Inquiry <span>→</span></button>
-                <div class="contact-status-msg" id="contact-status-msg">Thank you! Your message has been received. Our team will reply within 24 hours.</div>
+                <button type="submit" class="drawer-submit-btn">Send Message <span>→</span></button>
+                <div class="contact-status-msg" id="contact-status-msg">Thank you! Your message has been routed to Mezan Beverages Customer Care. We will respond within 24 hours.</div>
             </form>
 
             <div class="drawer-footer">
-                <p>Direct Inquiries: <strong>hello@dietsoda.com</strong></p>
-                <p>Brewing Labs: <strong>Boulder, CO • Sustainable Alpine Lab</strong></p>
+                <p>Direct Inquiries: <strong>care@colanext.com</strong></p>
+                <p>Head Office: <strong>Mezan Beverages (Pvt.) Ltd. • Paracha Group, Pakistan</strong></p>
+                <p>Consumer Hotline: <strong>0800-MEZAN (Mon–Sat, 9AM–6PM PKT)</strong></p>
             </div>
         </div>
     </aside>
@@ -1598,24 +1600,403 @@
         <model-viewer src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"></model-viewer>
     </div>
 
-    <!-- The Interactions & Animation Controller -->
+    <!-- The Cola Next Interactive Experience & Animation Controller -->
     <script>
+        // =============================================================
+        // VERIFIED COLA NEXT PRODUCT CATALOG DATA
+        // =============================================================
+        const COLA_NEXT_PRODUCTS = [
+            {
+                id: "cola-next",
+                name: "Cola Next",
+                variant: "Original Taste",
+                price: "Rs. 100",
+                heroLine1: "Bold",
+                heroLine2: "Next",
+                sideLine1: "Pakistan's",
+                sideLine2: "Heartbeat",
+                tagline: "Pakistan's Homegrown Refreshment",
+                description: "The flagship homegrown cola of Pakistan. Cold-crafted by Mezan Beverages with international-grade carbonation, bold caramel notes, and an authentically satisfying snap.",
+                brandColors: { inner: "#c8102e", mid: "#5c0715", outer: "#1a0205", accent: "#fbcfe8" },
+                packaging: "250ml Can • 345ml to 2.25L PET",
+                tasteProfile: {
+                    fizz: 9.3,
+                    acidity: 7.6,
+                    sweetness: 8.4,
+                    cleanFinish: 9.1,
+                    summary: "Bold caramelized sugar forward with a pleasant vanillin background and an energetic carbonation snap that pairs effortlessly with savoury Pakistani cuisine.",
+                    pairings: [
+                        "Karachi Dum Biryani with chilled Mint Raita",
+                        "Peshawari Chapli Kebab with tandoori Naan",
+                        "Crispy Fried Broast with spicy garlic sauce",
+                        "Late-night Cricket Watch Party snack spread"
+                    ]
+                },
+                nutrition: {
+                    calories: "105 kcal",
+                    sugar: "26.5 g",
+                    sodium: "22 mg",
+                    status: "100% Halal Certified (Mezan)"
+                },
+                verifiedIngredients: [
+                    { name: "Carbonated Water", icon: "💧", role: "Mineral-balanced sparkling base" },
+                    { name: "Refined Sugar", icon: "🍬", role: "Calibrated sweetness source" },
+                    { name: "Caramel Color (E150d)", icon: "🎨", role: "Class IV beverage caramel colorant" },
+                    { name: "Phosphoric Acid (E338)", icon: "⚡", role: "Acidulant imparting crisp cola bite" },
+                    { name: "Natural Flavors", icon: "🌿", role: "Proprietary botanical & cola nut essence" }
+                ],
+                visualFlavourElements: ["Caramel bubbles", "Sparkling geysers", "Ice crystals"],
+                reviews: [
+                    {
+                        quote: "Cola Next genuinely surprised our family. Served chilled with biryani, the fizz and crisp caramel taste are top-tier. Proud to support our local brand.",
+                        author: "Hamza K. • Karachi, Sindh",
+                        tag: "Verified Buyer"
+                    },
+                    {
+                        quote: "No chemical aftertaste and solid carbonation. It has become our default drink for every family dawat and wedding function.",
+                        author: "Zainab M. • Lahore, Punjab",
+                        tag: "Verified Buyer"
+                    }
+                ]
+            },
+            {
+                id: "zero-next",
+                name: "Zero Next",
+                variant: "Sugar Free",
+                price: "Rs. 100",
+                heroLine1: "Zero",
+                heroLine2: "Guilt",
+                sideLine1: "Clean",
+                sideLine2: "Energy",
+                tagline: "0 Sugar • 0 Calories • Full Bold Flavor",
+                description: "All the deep, punchy cola satisfaction of Cola Next with zero sugar and zero calories. Specially blended without lingering aspartame bitterness.",
+                brandColors: { inner: "#262626", mid: "#141414", outer: "#080808", accent: "#ef4444" },
+                packaging: "250ml Can • 345ml & 1.5L PET",
+                tasteProfile: {
+                    fizz: 9.5,
+                    acidity: 7.9,
+                    sweetness: 6.8,
+                    cleanFinish: 9.8,
+                    summary: "Crisp, snappy cola flavor with high carbonation and immediate dry dissipation. Zero syrupy coating, zero lingering artificial sweetness.",
+                    pairings: [
+                        "Grilled Chicken Tikka & Seekh Kebab",
+                        "Keto Beef Bihari Kebab & fresh salad",
+                        "Post-workout refreshing thirst quencher",
+                        "Guilt-free afternoon office desk reset"
+                    ]
+                },
+                nutrition: {
+                    calories: "0 kcal",
+                    sugar: "0 g",
+                    sodium: "18 mg",
+                    status: "Keto Friendly • Halal Certified"
+                },
+                verifiedIngredients: [
+                    { name: "Carbonated Water", icon: "💧", role: "High-pressure micro-carbonated water" },
+                    { name: "Caramel Color (E150d)", icon: "🎨", role: "Deep rich cola coloring" },
+                    { name: "Phosphoric Acid (E338)", icon: "⚡", role: "Crisp snappy acidulant" },
+                    { name: "Sucralose & Acesulfame-K", icon: "🍃", role: "Zero-glycemic calorie-free sweeteners" },
+                    { name: "Natural Cola Flavors", icon: "🌿", role: "Clean botanical flavor oils" }
+                ],
+                visualFlavourElements: ["Black carbonation bubbles", "Frost crystals", "Silver light ribbons"],
+                reviews: [
+                    {
+                        quote: "Hands down the best local diet drink. Unlike international brands that leave a chemical aspartame taste, Zero Next finishes crisp and clean.",
+                        author: "Dr. Adeel S. • Islamabad",
+                        tag: "Fitness Enthusiast"
+                    },
+                    {
+                        quote: "I drink this daily while on low-carb. Great carbonation punch and zero afternoon sugar crash. Highly recommended.",
+                        author: "Faizan R. • Rawalpindi",
+                        tag: "Verified Buyer"
+                    }
+                ]
+            },
+            {
+                id: "fizup-next",
+                name: "Fizup Next",
+                variant: "Lemon & Lime",
+                price: "Rs. 100",
+                heroLine1: "Crisp",
+                heroLine2: "Fizup",
+                sideLine1: "Citrus",
+                sideLine2: "Electric",
+                tagline: "Electric Lemon-Lime Refreshment",
+                description: "The sharp, thirst-quenching citrus titan. Natural Persian key lime peel and fresh lemon oils infused into intense sparkling effervescence.",
+                brandColors: { inner: "#047857", mid: "#064e3b", outer: "#022c22", accent: "#a7f3d0" },
+                packaging: "250ml Can • 345ml to 2.25L Green PET",
+                tasteProfile: {
+                    fizz: 9.6,
+                    acidity: 8.8,
+                    sweetness: 7.2,
+                    cleanFinish: 9.7,
+                    summary: "Sharp, effervescent burst of electric lemon zest and aromatic lime oil. Delivers a frosty dry snap that cuts through spicy and rich food.",
+                    pairings: [
+                        "Spicy Chicken Karahi with Garlic Naan",
+                        "Lahori Fried Fish with Chaat Masala",
+                        "Crispy Gol Gappay with spicy mint water",
+                        "Sunny afternoon cricket matches"
+                    ]
+                },
+                nutrition: {
+                    calories: "98 kcal",
+                    sugar: "24.0 g",
+                    sodium: "15 mg",
+                    status: "Real Citrus Oils • Halal"
+                },
+                verifiedIngredients: [
+                    { name: "Carbonated Water", icon: "💧", role: "Ultra-purified sparkling spring base" },
+                    { name: "Refined Sugar", icon: "🍬", role: "Natural sweetness balance" },
+                    { name: "Citric & Malic Acid", icon: "🍋", role: "Natural citrus acidity and crisp bite" },
+                    { name: "Trisodium Citrate", icon: "🧂", role: "Electrolyte buffer for smooth fizz" },
+                    { name: "Natural Lemon-Lime Oils", icon: "🍃", role: "Cold-extracted peel essence" }
+                ],
+                visualFlavourElements: ["Lemon slices", "Lime wheels", "Green citrus leaves", "Effervescent geysers"],
+                reviews: [
+                    {
+                        quote: "Fizup is so refreshing that it completely replaced 7Up in our household. Stronger fizz, real lime aroma, and great value.",
+                        author: "Usman B. • Faisalabad",
+                        tag: "Verified Buyer"
+                    },
+                    {
+                        quote: "Perfect balance of sour and sweet. When served ice cold on a hot summer afternoon in Multan, nothing beats it.",
+                        author: "Maryam T. • Multan",
+                        tag: "Verified Buyer"
+                    }
+                ]
+            },
+            {
+                id: "rango-next",
+                name: "Rango Next",
+                variant: "Zesty Orange",
+                price: "Rs. 100",
+                heroLine1: "Sunny",
+                heroLine2: "Rango",
+                sideLine1: "Juicy",
+                sideLine2: "Explosion",
+                tagline: "Vibrant Sunny Orange Burst",
+                description: "Sun-drenched citrus joy in every sip. High-energy carbonation combined with lush, juicy orange notes and an irresistibly vibrant finish.",
+                brandColors: { inner: "#ea580c", mid: "#9a3412", outer: "#431407", accent: "#fed7aa" },
+                packaging: "250ml Can • 345ml to 2.25L PET",
+                tasteProfile: {
+                    fizz: 8.9,
+                    acidity: 7.8,
+                    sweetness: 8.6,
+                    cleanFinish: 9.0,
+                    summary: "Rich, fragrant citrus aroma opening into juicy sweet orange pulp notes with a bubbly, joyful carbonation sparkle.",
+                    pairings: [
+                        "Halwa Puri & Chana Sunday brunch",
+                        "Cheesy Chicken Burgers & Fries",
+                        "Spicy Dahi Baray & Chana Chaat",
+                        "Family birthday parties & celebrations"
+                    ]
+                },
+                nutrition: {
+                    calories: "110 kcal",
+                    sugar: "27.2 g",
+                    sodium: "20 mg",
+                    status: "Sunset Citrus • Halal Certified"
+                },
+                verifiedIngredients: [
+                    { name: "Carbonated Water", icon: "💧", role: "Sparkling water base" },
+                    { name: "Refined Sugar", icon: "🍬", role: "Sweetness balance" },
+                    { name: "Citric Acid", icon: "🍊", role: "Tangy citrus acidity" },
+                    { name: "Natural & Nature-Identical Orange Flavor", icon: "🌿", role: "Zesty orange botanical oils" },
+                    { name: "Sunset Yellow & Food Color", icon: "🎨", role: "Sunny radiant orange hue" }
+                ],
+                visualFlavourElements: ["Orange slices", "Citrus droplets", "Golden sunbursts"],
+                reviews: [
+                    {
+                        quote: "The kids and elders both love Rango. It's bold, genuinely citrusy, and doesn't feel thin or watery.",
+                        author: "Kamran N. • Peshawar",
+                        tag: "Family Review"
+                    },
+                    {
+                        quote: "Best orange soda currently produced in Pakistan. Pairs amazingly with Sunday breakfast or spicy street food.",
+                        author: "Ayesha S. • Karachi",
+                        tag: "Verified Buyer"
+                    }
+                ]
+            }
+        ];
+
+        // =============================================================
+        // HIGH-RESOLUTION PROCEDURAL CAN PBR TEXTURE GENERATOR
+        // =============================================================
+        function generateCanLabelDataUrl(product) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 1024;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+
+            // 1. Base Gradient with metallic sheen bands
+            const grad = ctx.createLinearGradient(0, 0, 1024, 0);
+            if (product.id === 'cola-next') {
+                grad.addColorStop(0, '#8a0a1e');
+                grad.addColorStop(0.2, '#c8102e');
+                grad.addColorStop(0.5, '#e02444');
+                grad.addColorStop(0.75, '#c8102e');
+                grad.addColorStop(1, '#8a0a1e');
+            } else if (product.id === 'zero-next') {
+                grad.addColorStop(0, '#111111');
+                grad.addColorStop(0.25, '#222222');
+                grad.addColorStop(0.5, '#333333');
+                grad.addColorStop(0.75, '#222222');
+                grad.addColorStop(1, '#0e0e0e');
+            } else if (product.id === 'fizup-next') {
+                grad.addColorStop(0, '#005a2e');
+                grad.addColorStop(0.2, '#008744');
+                grad.addColorStop(0.5, '#00a854');
+                grad.addColorStop(0.75, '#008744');
+                grad.addColorStop(1, '#004d27');
+            } else { // Rango
+                grad.addColorStop(0, '#c2410c');
+                grad.addColorStop(0.2, '#ea580c');
+                grad.addColorStop(0.5, '#f97316');
+                grad.addColorStop(0.75, '#ea580c');
+                grad.addColorStop(1, '#9a3412');
+            }
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 1024, 512);
+
+            // 2. Metallic brushed sheen overlay
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+            ctx.fillRect(180, 0, 120, 512);
+            ctx.fillRect(680, 0, 100, 512);
+
+            // 3. Top and Bottom Aluminum Rim bands
+            const rimGrad = ctx.createLinearGradient(0, 0, 1024, 0);
+            rimGrad.addColorStop(0, '#888');
+            rimGrad.addColorStop(0.5, '#eee');
+            rimGrad.addColorStop(1, '#777');
+            ctx.fillStyle = rimGrad;
+            ctx.fillRect(0, 0, 1024, 30);
+            ctx.fillRect(0, 482, 1024, 30);
+
+            // Dark rim shadows
+            ctx.fillStyle = 'rgba(0,0,0,0.4)';
+            ctx.fillRect(0, 28, 1024, 5);
+            ctx.fillRect(0, 478, 1024, 4);
+
+            // Draw Brand Front Facing Art (Center: x = 512)
+            ctx.textAlign = 'center';
+
+            // Halal / Mezan Top Stamp
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+            ctx.font = 'bold 16px Inter, sans-serif';
+            ctx.fillText('A PRODUCT OF MEZAN BEVERAGES • PAKISTAN', 512, 75);
+
+            // Main Logo Title
+            if (product.id === 'cola-next') {
+                // White Script "Cola"
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 84px Galada, cursive';
+                ctx.fillText('Cola', 512, 190);
+
+                // NEXT Badge
+                ctx.fillStyle = '#f59e0b'; // Gold
+                ctx.fillRect(392, 215, 240, 55);
+                ctx.fillStyle = '#1e0508';
+                ctx.font = '900 42px Inter, sans-serif';
+                ctx.fillText('NEXT', 512, 258);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 20px Inter, sans-serif';
+                ctx.fillText('ORIGINAL TASTE', 512, 315);
+            } else if (product.id === 'zero-next') {
+                ctx.fillStyle = '#e2e8f0';
+                ctx.font = 'bold 78px Galada, cursive';
+                ctx.fillText('Cola', 512, 175);
+
+                // Vibrant Red ZERO
+                ctx.fillStyle = '#ef4444';
+                ctx.font = '900 64px Inter, sans-serif';
+                ctx.fillText('ZERO', 512, 245);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 22px Inter, sans-serif';
+                ctx.fillText('SUGAR FREE • ZERO CALORIES', 512, 300);
+            } else if (product.id === 'fizup-next') {
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'italic 900 86px Inter, sans-serif';
+                ctx.fillText('Fizup', 512, 190);
+
+                ctx.fillStyle = '#d9f99d'; // Lime
+                ctx.fillRect(402, 215, 220, 50);
+                ctx.fillStyle = '#064e3b';
+                ctx.font = '900 38px Inter, sans-serif';
+                ctx.fillText('NEXT', 512, 254);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 20px Inter, sans-serif';
+                ctx.fillText('LEMON & LIME CITRUS', 512, 315);
+            } else { // Rango Next
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 86px Outfit, sans-serif';
+                ctx.fillText('Rango', 512, 190);
+
+                ctx.fillStyle = '#fef08a';
+                ctx.fillRect(402, 215, 220, 50);
+                ctx.fillStyle = '#9a3412';
+                ctx.font = '900 38px Inter, sans-serif';
+                ctx.fillText('NEXT', 512, 254);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 20px Inter, sans-serif';
+                ctx.fillText('ZESTY ORANGE BURST', 512, 315);
+            }
+
+            // Tagline & Volume badge
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = '600 18px Inter, sans-serif';
+            ctx.fillText('250 ml • SERVE CHILLED', 512, 370);
+
+            // Bottom Ribbon
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(300, 400, 424, 40);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 15px Inter, sans-serif';
+            ctx.fillText('100% HALAL CERTIFIED • MEZAN GROUP', 512, 426);
+
+            // Side Technical Column (Nutrition & Barcode preview on left & right)
+            ctx.textAlign = 'left';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.font = '11px Inter, sans-serif';
+            ctx.fillText('NUTRITION (250ml):', 50, 180);
+            ctx.fillText(`Energy: ${product.nutrition.calories}`, 50, 205);
+            ctx.fillText(`Sugars: ${product.nutrition.sugar}`, 50, 225);
+            ctx.fillText(`Sodium: ${product.nutrition.sodium}`, 50, 245);
+            ctx.fillText('Recycle Aluminum ♻', 50, 275);
+
+            // Barcode lines on right side
+            for (let i = 0; i < 28; i++) {
+                ctx.fillStyle = (i % 3 === 0) ? '#fff' : 'rgba(255,255,255,0.4)';
+                ctx.fillRect(860 + (i * 4), 200, (i % 2 === 0 ? 2 : 1), 60);
+            }
+            ctx.fillText('MADE IN PAKISTAN', 860, 280);
+
+            return canvas.toDataURL('image/jpeg', 0.92);
+        }
+
+        // =============================================================
+        // CONTROLLER & APPLICATION STATE
+        // =============================================================
         const modelViewer = document.querySelector('#product-model');
         const mainProduct3D = document.querySelector('.main-product-3d');
         const berriesFG = document.querySelector('.berries-container');
         const berriesBG = document.querySelector('.berries-container-bg');
         const leavesBG = document.querySelector('.leaves-container');
         const allBerries = document.querySelectorAll('.berry');
-        const cards = document.querySelectorAll('.card');
         const navItems = document.querySelectorAll('.nav-item');
         const tabPanes = document.querySelectorAll('.tab-pane');
+        const carouselContainer = document.getElementById('carousel-cards-container');
+        const carouselCounter = document.getElementById('carousel-counter');
 
         let isSwitching = false;
         let switchSpin = 0;
-        let blueTexture = null;
-        let greenTexture = null;
-        let currentFlavor = 'classic';
+        let currentProductIndex = 0;
         let currentTab = 'home';
+        const productTextures = {};
 
         // Camera and Can Stage Positions for each tab
         const tabStageCoordinates = {
@@ -1640,22 +2021,241 @@
 
         let activeBubbleInterval = 400;
 
-        // Preload textures & Warm up shaders
+        // Build Product Cards in Carousel
+        function renderCarouselCards() {
+            carouselContainer.innerHTML = '';
+            COLA_NEXT_PRODUCTS.forEach((prod, idx) => {
+                const card = document.createElement('div');
+                card.className = `card ${idx === currentProductIndex ? 'active' : ''}`;
+                card.dataset.index = idx;
+                card.dataset.productId = prod.id;
+
+                // Create a small preview can canvas
+                const previewImg = document.createElement('img');
+                previewImg.className = 'card-can-canvas';
+                previewImg.src = generateCanLabelDataUrl(prod);
+                previewImg.alt = prod.name;
+
+                const info = document.createElement('div');
+                info.className = 'card-info';
+                info.innerHTML = `<span>${prod.name}</span><span>${prod.price}</span>`;
+
+                card.appendChild(previewImg);
+                card.appendChild(info);
+
+                card.addEventListener('click', () => {
+                    if (isSwitching || currentProductIndex === idx) return;
+                    selectProduct(idx);
+                });
+
+                carouselContainer.appendChild(card);
+            });
+            carouselCounter.textContent = `${currentProductIndex + 1} / ${COLA_NEXT_PRODUCTS.length}`;
+        }
+
+        // Pre-generate & Warm up PBR textures for all 4 Cola Next beverages
         modelViewer.addEventListener('load', async () => {
             try {
-                blueTexture = await modelViewer.createTexture('https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/blue%20base%20color.jpg');
-                greenTexture = await modelViewer.createTexture('https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/green%20base%20color.jpg');
+                for (const prod of COLA_NEXT_PRODUCTS) {
+                    const dataUrl = generateCanLabelDataUrl(prod);
+                    productTextures[prod.id] = await modelViewer.createTexture(dataUrl);
+                }
 
-                if (modelViewer.model) {
+                // Apply initial Cola Next texture
+                if (modelViewer.model && productTextures['cola-next']) {
                     const material = modelViewer.model.materials[0];
                     if (material && material.pbrMetallicRoughness.baseColorTexture) {
-                        material.pbrMetallicRoughness.baseColorTexture.setTexture(blueTexture);
-                        await new Promise(r => requestAnimationFrame(r));
-                        material.pbrMetallicRoughness.baseColorTexture.setTexture(greenTexture);
+                        material.pbrMetallicRoughness.baseColorTexture.setTexture(productTextures['cola-next']);
                     }
                 }
-            } catch (e) { console.error("Texture preload failed", e); }
+            } catch (err) {
+                console.error("Texture compilation error:", err);
+            }
         });
+
+        // -------------------------------------------------------------
+        // PRODUCT SWITCHING WITH 720° SPIN & DYNAMIC CONTENT UPDATE
+        // -------------------------------------------------------------
+        async function selectProduct(index) {
+            if (isSwitching) return;
+            isSwitching = true;
+            currentProductIndex = index;
+            const product = COLA_NEXT_PRODUCTS[index];
+            const body = document.body;
+
+            // Update card active classes
+            document.querySelectorAll('.card').forEach((c, i) => {
+                c.classList.toggle('active', i === index);
+            });
+            carouselCounter.textContent = `${currentProductIndex + 1} / ${COLA_NEXT_PRODUCTS.length}`;
+
+            // 1. Dynamic Background Transition
+            gsap.to(body, {
+                '--bg-inner': product.brandColors.inner,
+                '--bg-mid': product.brandColors.mid,
+                '--bg-outer': product.brandColors.outer,
+                '--brand-accent': product.brandColors.accent,
+                duration: 1.4,
+                ease: 'power2.inOut'
+            });
+
+            // 2. Can Spin Animation
+            const spinObj = { val: 0, blur: 0 };
+            gsap.to(spinObj, {
+                val: 360,
+                blur: 15,
+                duration: 0.6,
+                ease: "power2.in",
+                onUpdate: () => {
+                    switchSpin = spinObj.val;
+                    modelViewer.style.filter = `blur(${spinObj.blur}px)`;
+                },
+                onComplete: async () => {
+                    // Apply new PBR Texture at peak
+                    const tex = productTextures[product.id];
+                    if (modelViewer.model && tex) {
+                        modelViewer.model.materials.forEach(mat => {
+                            if (mat.pbrMetallicRoughness.baseColorTexture) {
+                                mat.pbrMetallicRoughness.baseColorTexture.setTexture(tex);
+                            }
+                        });
+                    }
+
+                    // Complete the 720deg spin
+                    gsap.to(spinObj, {
+                        val: 720,
+                        blur: 0,
+                        duration: 1.4,
+                        ease: "back.out(0.7)",
+                        onUpdate: () => {
+                            switchSpin = spinObj.val;
+                            modelViewer.style.filter = `blur(${spinObj.blur}px)`;
+                        },
+                        onComplete: () => {
+                            switchSpin = 0;
+                            modelViewer.style.filter = 'none';
+                            isSwitching = false;
+                        }
+                    });
+                }
+            });
+
+            // 3. Update all textual & metrics content across all tabs
+            updateProductContent(product);
+        }
+
+        function updateProductContent(product) {
+            // Home Tab
+            const homeMain = document.getElementById('home-main-title');
+            const homeDesc = document.getElementById('home-description');
+            const homeSide = document.getElementById('home-side-title');
+            if (homeMain) homeMain.innerHTML = `<span class="outline">${product.heroLine1}</span><br>${product.heroLine2}`;
+            if (homeDesc) homeDesc.textContent = product.description;
+            if (homeSide) homeSide.innerHTML = `<span class="outline">${product.sideLine1}</span><br>${product.sideLine2}`;
+
+            // Ingredients Tab
+            const ingDeck = document.getElementById('ingredient-deck-container');
+            const ingPurity = document.getElementById('ing-purity-pill');
+            if (ingPurity) {
+                ingPurity.innerHTML = `
+                    <span>⚡ ${product.nutrition.calories}</span>
+                    <span class="dot">•</span>
+                    <span>🍬 ${product.nutrition.sugar} Sugar</span>
+                    <span class="dot">•</span>
+                    <span>🧂 ${product.nutrition.sodium}</span>
+                    <span class="dot">•</span>
+                    <span>🌙 ${product.nutrition.status}</span>
+                `;
+            }
+            if (ingDeck) {
+                ingDeck.innerHTML = '';
+                product.verifiedIngredients.forEach(ing => {
+                    const card = document.createElement('div');
+                    card.className = 'ingredient-card';
+                    card.innerHTML = `
+                        <div class="ingredient-card-header">
+                            <span class="ing-icon">${ing.icon}</span>
+                            <span class="ing-name">${ing.name}</span>
+                        </div>
+                        <p class="ing-desc">${ing.role}</p>
+                        <span class="ing-tag">Verified Formulation</span>
+                    `;
+                    ingDeck.appendChild(card);
+                });
+            }
+
+            // Taste Tab
+            const tasteMain = document.getElementById('taste-main-title');
+            const fizzVal = document.getElementById('metric-fizz-val');
+            const fizzBar = document.getElementById('metric-fizz-bar');
+            const acidVal = document.getElementById('metric-acid-val');
+            const acidBar = document.getElementById('metric-acid-bar');
+            const sweetVal = document.getElementById('metric-sweet-val');
+            const sweetBar = document.getElementById('metric-sweet-bar');
+            const cleanVal = document.getElementById('metric-clean-val');
+            const cleanBar = document.getElementById('metric-clean-bar');
+            const tasteNotesFlavor = document.getElementById('taste-notes-flavor');
+            const tasteNotesText = document.getElementById('taste-notes-text');
+            const pairingsList = document.getElementById('taste-pairings-list');
+
+            if (fizzVal) fizzVal.textContent = `${product.tasteProfile.fizz} / 10`;
+            if (fizzBar) fizzBar.style.width = `${product.tasteProfile.fizz * 10}%`;
+            if (acidVal) acidVal.textContent = `${product.tasteProfile.acidity} / 10`;
+            if (acidBar) acidBar.style.width = `${product.tasteProfile.acidity * 10}%`;
+            if (sweetVal) sweetVal.textContent = `${product.tasteProfile.sweetness} / 10`;
+            if (sweetBar) sweetBar.style.width = `${product.tasteProfile.sweetness * 10}%`;
+            if (cleanVal) cleanVal.textContent = `${product.tasteProfile.cleanFinish} / 10`;
+            if (cleanBar) cleanBar.style.width = `${product.tasteProfile.cleanFinish * 10}%`;
+
+            if (tasteNotesFlavor) tasteNotesFlavor.textContent = `${product.name} Palate Notes`;
+            if (tasteNotesText) tasteNotesText.textContent = `"${product.tasteProfile.summary}"`;
+
+            if (pairingsList) {
+                pairingsList.innerHTML = '';
+                product.tasteProfile.pairings.forEach(p => {
+                    const li = document.createElement('li');
+                    li.textContent = p;
+                    pairingsList.appendChild(li);
+                });
+            }
+
+            // Reviews Tab
+            const reviewsDeck = document.getElementById('reviews-deck-container');
+            if (reviewsDeck) {
+                reviewsDeck.innerHTML = '';
+                product.reviews.forEach(r => {
+                    const rCard = document.createElement('div');
+                    rCard.className = 'review-card-item';
+                    rCard.innerHTML = `
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-quote">"${r.quote}"</p>
+                        <div class="review-author">
+                            <span>${r.author}</span>
+                            <span class="review-tag">${r.tag}</span>
+                        </div>
+                    `;
+                    reviewsDeck.appendChild(rCard);
+                });
+            }
+        }
+
+        // Carousel arrow navigation
+        const carouselPrev = document.getElementById('carousel-prev');
+        const carouselNext = document.getElementById('carousel-next');
+        if (carouselPrev) {
+            carouselPrev.addEventListener('click', () => {
+                if (isSwitching) return;
+                const nextIdx = (currentProductIndex - 1 + COLA_NEXT_PRODUCTS.length) % COLA_NEXT_PRODUCTS.length;
+                selectProduct(nextIdx);
+            });
+        }
+        if (carouselNext) {
+            carouselNext.addEventListener('click', () => {
+                if (isSwitching) return;
+                const nextIdx = (currentProductIndex + 1) % COLA_NEXT_PRODUCTS.length;
+                selectProduct(nextIdx);
+            });
+        }
 
         // -------------------------------------------------------------
         // TAB SWITCHING CONTROLLER
@@ -1691,10 +2291,10 @@
             targetOrbitDistance = coords.distance;
             activeBubbleInterval = coords.bubbleRate;
 
-            // 4. Adapt floating props
+            // 4. Adapt floating props (Translucent see-through on other tabs)
             gsap.to(berriesFG, { opacity: coords.berryAlpha, duration: 0.6 });
             gsap.to(berriesBG, { opacity: coords.berryAlpha, duration: 0.6 });
-            gsap.to(leavesBG, { opacity: tabId === 'eco' ? 1 : 0.6, duration: 0.6 });
+            gsap.to(leavesBG, { opacity: tabId === 'eco' ? 1 : 0.45, duration: 0.6 });
         }
 
         navItems.forEach(item => {
@@ -1712,189 +2312,9 @@
             });
         });
 
-        // -------------------------------------------------------------
-        // FLAVOR SWITCHING WITH DYNAMIC CONTENT UPDATES
-        // -------------------------------------------------------------
-        cards.forEach(card => {
-            card.addEventListener('click', () => {
-                if (isSwitching) return;
-                cards.forEach(c => c.classList.remove('active'));
-                card.classList.add('active');
-                const flavor = card.dataset.flavor;
-                switchFlavor(flavor);
-            });
-        });
-
-        // Carousel arrow support
-        const carouselPrev = document.getElementById('carousel-prev');
-        const carouselNext = document.getElementById('carousel-next');
-        if (carouselPrev && carouselNext) {
-            carouselPrev.addEventListener('click', () => {
-                const targetCard = cards[0].classList.contains('active') ? cards[1] : cards[0];
-                targetCard.click();
-            });
-            carouselNext.addEventListener('click', () => {
-                const targetCard = cards[0].classList.contains('active') ? cards[1] : cards[0];
-                targetCard.click();
-            });
-        }
-
-        async function switchFlavor(flavor) {
-            if (isSwitching) return;
-            isSwitching = true;
-            currentFlavor = flavor;
-            const body = document.body;
-            const berries = document.querySelectorAll('.berry');
-            const heroCenter = document.querySelector('.hero-center');
-
-            // 1. Background Color Morph
-            const targetColors = flavor === 'blue' ?
-                { inner: '#0b4f8a', mid: '#04294e', outer: '#010c14' } :
-                { inner: '#0b8a78', mid: '#044e3b', outer: '#011411' };
-
-            gsap.to(body, {
-                '--bg-inner': targetColors.inner,
-                '--bg-mid': targetColors.mid,
-                '--bg-outer': targetColors.outer,
-                duration: 1.5,
-                ease: 'power2.inOut'
-            });
-
-            // Update Tab Context Texts (Botanical Essence & Taste Notes)
-            updateTabFlavorContent(flavor);
-
-            // 2. Can Spin Animation
-            const spinObj = { val: 0, blur: 0 };
-            gsap.to(spinObj, {
-                val: 360,
-                blur: 15,
-                duration: 0.6,
-                ease: "power2.in",
-                onUpdate: () => {
-                    switchSpin = spinObj.val;
-                    modelViewer.style.filter = `blur(${spinObj.blur}px)`;
-                },
-                onComplete: async () => {
-                    // Swap texture at peak
-                    if (flavor === 'blue') {
-                        body.classList.add('blue-theme');
-                        if (modelViewer.model && blueTexture) {
-                            modelViewer.model.materials.forEach(material => {
-                                if (material.pbrMetallicRoughness.baseColorTexture) {
-                                    material.pbrMetallicRoughness.baseColorTexture.setTexture(blueTexture);
-                                }
-                            });
-                        }
-                    } else {
-                        body.classList.remove('blue-theme');
-                        if (modelViewer.model && greenTexture) {
-                            modelViewer.model.materials.forEach(material => {
-                                if (material.pbrMetallicRoughness.baseColorTexture) {
-                                    material.pbrMetallicRoughness.baseColorTexture.setTexture(greenTexture);
-                                }
-                            });
-                        }
-                    }
-
-                    gsap.to(spinObj, {
-                        val: 720,
-                        blur: 0,
-                        duration: 1.5,
-                        ease: "back.out(0.7)",
-                        onUpdate: () => {
-                            switchSpin = spinObj.val;
-                            modelViewer.style.filter = `blur(${spinObj.blur}px)`;
-                        },
-                        onComplete: () => {
-                            switchSpin = 0;
-                            modelViewer.style.filter = 'none';
-                        }
-                    });
-                }
-            });
-
-            // 3. Berries Implode, Swap Model, & Explode
-            let completedBerries = 0;
-            berries.forEach((berry) => {
-                const bW = berry.offsetWidth / 2;
-                const bH = berry.offsetHeight / 2;
-                const centerX = (window.innerWidth / 2 - berry.offsetLeft - bW);
-                const centerY = (window.innerHeight / 2 - berry.offsetTop - bH);
-
-                const startAngle = parseFloat(berry.dataset.angle) || 0;
-                const currentBaseX = parseFloat(berry.dataset.baseX) || 0;
-                const currentBaseY = parseFloat(berry.dataset.baseY) || 0;
-
-                const nextBaseX = (Math.random() - 0.5) * 200;
-                const nextBaseY = (Math.random() - 0.5) * 200;
-
-                gsap.set(berry, {
-                    rotation: startAngle,
-                    x: currentBaseX,
-                    y: currentBaseY
-                });
-
-                const berryTl = gsap.timeline();
-
-                berryTl.to(berry, {
-                    x: centerX,
-                    y: centerY,
-                    rotation: startAngle + 45,
-                    scale: 0.1,
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: "power2.in",
-                    onComplete: () => {
-                        berry.src = flavor === 'blue' ? 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/blueberry.glb' : 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb';
-                        heroCenter.style.zIndex = 50;
-                    }
-                })
-                .to(berry, { duration: 0.3 })
-                .to(berry, {
-                    onStart: () => { heroCenter.style.zIndex = 1; },
-                    x: nextBaseX,
-                    y: nextBaseY,
-                    rotation: startAngle + 90,
-                    scale: 1,
-                    opacity: 1,
-                    duration: 0.9,
-                    ease: "back.out(1.5)",
-                    onComplete: () => {
-                        berry.dataset.angle = startAngle + 90;
-                        berry.dataset.baseX = nextBaseX;
-                        berry.dataset.baseY = nextBaseY;
-                        berry.dataset.rx = 0;
-                        berry.dataset.ry = 0;
-
-                        completedBerries++;
-                        if (completedBerries === berries.length) {
-                            isSwitching = false;
-                        }
-                    }
-                });
-            });
-        }
-
-        function updateTabFlavorContent(flavor) {
-            const botIcon = document.getElementById('ing-botanical-icon');
-            const botTitle = document.getElementById('ing-botanical-title');
-            const botDesc = document.getElementById('ing-botanical-desc');
-            const tasteFlavor = document.getElementById('taste-notes-flavor');
-            const tasteText = document.getElementById('taste-notes-text');
-
-            if (flavor === 'blue') {
-                if (botIcon) botIcon.textContent = '🍋';
-                if (botTitle) botTitle.textContent = 'Persian Key Lime & Blueberry';
-                if (botDesc) botDesc.textContent = 'Zesty cold-extracted Persian key lime peel essence paired with wild mountain blueberry juice.';
-                if (tasteFlavor) tasteFlavor.textContent = 'Zero Lime Palette';
-                if (tasteText) tasteText.textContent = '"Electric citrus zest with a crisp mountain berry edge. Intense initial fizz with a refreshing, dry alpine finish."';
-            } else {
-                if (botIcon) botIcon.textContent = '🍒';
-                if (botTitle) botTitle.textContent = 'Cold-Pressed Cherry Essence';
-                if (botDesc) botDesc.textContent = 'Tart Montmorency cherry skin infusion balanced with subtle Madagascar vanilla bean extract.';
-                if (tasteFlavor) tasteFlavor.textContent = 'Diet Classic Palette';
-                if (tasteText) tasteText.textContent = '"Rich Bing cherry forward with light vanillin depth. Finishes crisp, tart, and completely weightless."';
-            }
+        const homeShopBtn = document.getElementById('home-shop-btn');
+        if (homeShopBtn) {
+            homeShopBtn.addEventListener('click', () => switchTab('taste'));
         }
 
         // -------------------------------------------------------------
@@ -1909,11 +2329,11 @@
         if (calcSlider) {
             calcSlider.addEventListener('input', (e) => {
                 const cans = parseInt(e.target.value);
-                calcDisplay.textContent = `${cans} ${cans === 1 ? 'Can' : 'Cans'}`;
+                calcDisplay.textContent = `${cans} ${cans === 1 ? 'Unit' : 'Units'}`;
                 const annualCans = cans * 52;
                 calcBottles.textContent = Math.round(annualCans).toLocaleString();
-                calcWaste.textContent = (annualCans * 0.05).toFixed(1) + ' kg';
-                calcCO2.textContent = (annualCans * 0.09).toFixed(1) + ' kg';
+                calcWaste.textContent = (annualCans * 0.009).toFixed(1) + ' kg';
+                calcCO2.textContent = (annualCans * 0.059).toFixed(1) + ' kg';
             });
         }
 
@@ -1950,14 +2370,9 @@
                     setTimeout(() => {
                         contactStatus.classList.remove('success');
                         toggleContactDrawer(false);
-                    }, 2800);
+                    }, 3000);
                 }
             });
-        }
-
-        const homeShopBtn = document.getElementById('home-shop-btn');
-        if (homeShopBtn) {
-            homeShopBtn.addEventListener('click', () => switchTab('taste'));
         }
 
         // -------------------------------------------------------------
@@ -2093,6 +2508,10 @@
             setTimeout(scheduleNextBubble, activeBubbleInterval);
         }
         scheduleNextBubble();
+
+        // Initialize Carousel on page boot
+        renderCarouselCards();
+        updateProductContent(COLA_NEXT_PRODUCTS[0]);
     </script>
 </body>
 </html>
