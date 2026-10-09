@@ -307,16 +307,44 @@
         .l3 { top: 70%; left: 75%; width: 80px; height: 80px; }
         .l4 { top: 85%; left: 20%; width: 120px; height: 120px; opacity: 0.3; }
 
-        /* 3D Flavour Floating Props Canvas */
-        .floating-props-canvas {
-            position: absolute;
+        /* Flavour-Specific Floating Props Container (Guaranteed Cross-Browser & file:/// support) */
+        .floating-props-container {
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: 2;
+            overflow: hidden;
             transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .floating-prop {
+            position: absolute;
+            pointer-events: none;
+            will-change: transform;
+            transition: opacity 0.4s ease;
+        }
+
+        .floating-prop img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.45));
+        }
+
+        .floating-prop.prop-splash img {
+            filter: drop-shadow(0 10px 20px rgba(255, 255, 255, 0.12)) drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
+        }
+
+        /* Subdued visibility on informational tabs so cards and text are unobstructed */
+        body.tab-ingredients .floating-props-container,
+        body.tab-taste .floating-props-container,
+        body.tab-eco .floating-props-container,
+        body.tab-reviews .floating-props-container {
+            opacity: 0.35;
         }
 
         /* Typography */
@@ -1510,8 +1538,8 @@
                 </div>
             </div>
 
-            <!-- 3c. Flavour-Specific 3D Floating Props Canvas (Three.js) -->
-            <canvas id="floating-props-canvas" class="floating-props-canvas"></canvas>
+            <!-- 3c. Flavour-Specific Floating Props Container (Guaranteed Cross-Browser) -->
+            <div id="floating-props-container" class="floating-props-container"></div>
 
             <!-- 3d. Center product (the 3D can) -->
             <div class="hero-center">
@@ -1760,7 +1788,7 @@
             {
                 id: "rango-next",
                 name: "Rango Next",
-                cardImage: "assets/rango_sku_300.webp",
+                cardImage: "assets/rango_sku_250.webp",
                 variant: "Zesty Orange",
                 price: "Rs. 100",
                 heroLine1: "Sunny",
@@ -1914,12 +1942,12 @@
                 bodyGrad.addColorStop(0.85, '#8c091d');
                 bodyGrad.addColorStop(1.0, '#5a0410');
             } else if (product.id === 'zero-next') {
-                bodyGrad.addColorStop(0.0, '#090909');
-                bodyGrad.addColorStop(0.25, '#171717');
-                bodyGrad.addColorStop(0.35, '#262626');
-                bodyGrad.addColorStop(0.5, '#1e1e1e');
-                bodyGrad.addColorStop(0.75, '#171717');
-                bodyGrad.addColorStop(1.0, '#090909');
+                bodyGrad.addColorStop(0.0, '#cbd5e1');
+                bodyGrad.addColorStop(0.25, '#e2e8f0');
+                bodyGrad.addColorStop(0.35, '#f8fafc');
+                bodyGrad.addColorStop(0.5, '#ffffff');
+                bodyGrad.addColorStop(0.75, '#e2e8f0');
+                bodyGrad.addColorStop(1.0, '#cbd5e1');
             } else if (product.id === 'fizup-next') {
                 bodyGrad.addColorStop(0.0, '#01371e');
                 bodyGrad.addColorStop(0.25, '#026939');
@@ -1941,35 +1969,37 @@
             // Specular vertical sheen along can height (around Y = 360)
             const sheenGrad = ctx.createLinearGradient(0, 280, 0, 440);
             sheenGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
-            sheenGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.16)');
+            sheenGrad.addColorStop(0.5, (product.id === 'zero-next') ? 'rgba(255, 255, 255, 0.4)' : 'rgba(255, 255, 255, 0.16)');
             sheenGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
             ctx.fillStyle = sheenGrad;
-            ctx.fillRect(65, 280, 470, 160);
+            ctx.fillRect(75, 280, 415, 160);
 
-            // 3. ALUMINUM BEVELS
-            // Bottom Chime Bevel (X = 0 to 65)
-            const btmRim = ctx.createLinearGradient(0, 0, 65, 0);
-            btmRim.addColorStop(0, '#71717a');
-            btmRim.addColorStop(0.5, '#e4e4e7');
-            btmRim.addColorStop(0.8, '#f4f4f5');
-            btmRim.addColorStop(1, '#a1a1aa');
-            ctx.fillStyle = btmRim;
-            ctx.fillRect(0, 0, 65, 1024);
+            // 3. ALUMINUM TOP RIM & BOTTOM CHIME BEVELS
+            // Top Neck Bevel (X = 0 to 75) - Completely covers "ORIGINAL DO BRASIL"
+            const topRim = ctx.createLinearGradient(0, 0, 75, 0);
+            topRim.addColorStop(0, '#71717a');
+            topRim.addColorStop(0.3, '#d4d4d8');
+            topRim.addColorStop(0.6, '#f4f4f5');
+            topRim.addColorStop(0.85, '#e4e4e7');
+            topRim.addColorStop(1, '#a1a1aa');
+            ctx.fillStyle = topRim;
+            ctx.fillRect(0, 0, 75, 1024);
 
-            ctx.fillStyle = 'rgba(0,0,0,0.45)';
-            ctx.fillRect(63, 0, 4, 1024);
+            ctx.fillStyle = 'rgba(0,0,0,0.35)';
+            ctx.fillRect(73, 0, 3, 1024);
 
-            // Top Neck Bevel (X = 535 to 584)
-            const topNeck = ctx.createLinearGradient(535, 0, 584, 0);
-            topNeck.addColorStop(0, '#a1a1aa');
-            topNeck.addColorStop(0.3, '#f4f4f5');
-            topNeck.addColorStop(0.8, '#e4e4e7');
-            topNeck.addColorStop(1, '#71717a');
-            ctx.fillStyle = topNeck;
-            ctx.fillRect(535, 0, 49, 1024);
+            // Bottom Chime Bevel (X = 490 to 585) - Completely covers "350ml REFRIGERANTE DE GUARANÁ"
+            const btmChime = ctx.createLinearGradient(490, 0, 585, 0);
+            btmChime.addColorStop(0, '#52525b');
+            btmChime.addColorStop(0.25, '#a1a1aa');
+            btmChime.addColorStop(0.55, '#e4e4e7');
+            btmChime.addColorStop(0.8, '#f4f4f5');
+            btmChime.addColorStop(1, '#71717a');
+            ctx.fillStyle = btmChime;
+            ctx.fillRect(490, 0, 95, 1024);
 
-            ctx.fillStyle = 'rgba(0,0,0,0.5)';
-            ctx.fillRect(533, 0, 3, 1024);
+            ctx.fillStyle = 'rgba(0,0,0,0.4)';
+            ctx.fillRect(488, 0, 3, 1024);
 
             // 4. MICRO-CONDENSATION FX (Water droplets across printable body)
             function pseudoRand(s) {
@@ -1978,7 +2008,7 @@
             }
             let seed = 42;
             for (let i = 0; i < 95; i++) {
-                const dx = 75 + pseudoRand(seed++) * 445;
+                const dx = 80 + pseudoRand(seed++) * 400;
                 const dy = 20 + pseudoRand(seed++) * 980;
                 const rX = 2 + pseudoRand(seed++) * 4.5;
                 const rY = rX * (1 + pseudoRand(seed++) * 0.4);
@@ -2000,8 +2030,8 @@
             }
 
             // =========================================================
-            // 5. BRAND ARTWORK (ROTATED +90deg TO READ HORIZONTALLY ON CAN)
-            // Center of front face: X = 300 (height), Y = 360 (circumference)
+            // 5. AUTHENTIC FRONT CAN ARTWORK (colanext.com Packaging System)
+            // Center of front face: X = 275 (height midpoint), Y = 360 (front circumference)
             // =========================================================
             function drawLabelElement(xHeight, yCirc, drawFn) {
                 ctx.save();
@@ -2011,233 +2041,304 @@
                 ctx.restore();
             }
 
-            // Top Header: Mezan Beverages (X = 120)
-            drawLabelElement(120, 360, () => {
-                ctx.textAlign = 'center';
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.88)';
-                ctx.font = 'bold 13px Inter, sans-serif';
-                ctx.fillText('★ MEZAN BEVERAGES • PAKISTAN ★', 0, 0);
-            });
-
-            // Quality Arch (X = 145)
-            drawLabelElement(145, 360, () => {
-                ctx.textAlign = 'center';
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
-                ctx.font = '600 11px Inter, sans-serif';
-                ctx.fillText('COLD-CRAFTED PAKISTANI FORMULA', 0, 0);
-            });
-
-            // Main Brand Logo & Badge
-            if (product.id === 'cola-next') {
-                // Script "Cola" (X = 220)
-                drawLabelElement(220, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-                    ctx.shadowBlur = 14;
-                    ctx.shadowOffsetY = 4;
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = 'bold 110px Galada, cursive';
-                    ctx.fillText('Cola', 0, 0);
-                });
-
-                // NEXT Badge - Gold pill (X = 295)
-                drawLabelElement(295, 360, () => {
-                    ctx.textAlign = 'center';
-                    const badgeW = 200, badgeH = 50;
-                    const goldBadge = ctx.createLinearGradient(-badgeW/2, -badgeH/2, badgeW/2, badgeH/2);
-                    goldBadge.addColorStop(0, '#f59e0b');
-                    goldBadge.addColorStop(0.5, '#fbbf24');
-                    goldBadge.addColorStop(1, '#d97706');
-                    ctx.fillStyle = goldBadge;
-                    ctx.beginPath();
-                    ctx.roundRect(-badgeW/2, -badgeH/2, badgeW, badgeH, 25);
-                    ctx.fill();
-                    ctx.strokeStyle = '#ffffff';
-                    ctx.lineWidth = 2.5;
-                    ctx.stroke();
-
-                    ctx.fillStyle = '#1e0508';
-                    ctx.font = '900 36px Inter, sans-serif';
-                    ctx.fillText('NEXT', 0, 12);
-                });
-
-                // Flavour Descriptor (X = 355)
-                drawLabelElement(355, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = 'bold 22px Inter, sans-serif';
-                    ctx.fillText('ORIGINAL TASTE', 0, 0);
-                });
-
-                // Sub-descriptor (X = 385)
-                drawLabelElement(385, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                    ctx.font = '600 13px Inter, sans-serif';
-                    ctx.fillText('CRISP & BOLD CARAMEL FIZZ', 0, 0);
-                });
-
-            } else if (product.id === 'zero-next') {
-                drawLabelElement(205, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-                    ctx.shadowBlur = 12;
-                    ctx.fillStyle = '#e2e8f0';
-                    ctx.font = 'bold 95px Galada, cursive';
-                    ctx.fillText('Cola', 0, 0);
-                });
-
-                drawLabelElement(265, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.fillStyle = '#ef4444';
-                    ctx.font = '900 68px Inter, sans-serif';
-                    ctx.fillText('ZERO', 0, 0);
-                });
-
-                drawLabelElement(320, 360, () => {
-                    ctx.textAlign = 'center';
-                    const badgeW = 160, badgeH = 38;
-                    ctx.fillStyle = '#ffffff';
-                    ctx.beginPath();
-                    ctx.roundRect(-badgeW/2, -badgeH/2, badgeW, badgeH, 19);
-                    ctx.fill();
-                    ctx.fillStyle = '#0f172a';
-                    ctx.font = '900 24px Inter, sans-serif';
-                    ctx.fillText('NEXT', 0, 8);
-                });
-
-                drawLabelElement(365, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = 'bold 18px Inter, sans-serif';
-                    ctx.fillText('SUGAR FREE • ZERO CALORIES', 0, 0);
-                });
-
-            } else if (product.id === 'fizup-next') {
-                drawLabelElement(225, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
-                    ctx.shadowBlur = 12;
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = 'italic 900 102px Inter, sans-serif';
-                    ctx.fillText('Fizup', 0, 0);
-                });
-
-                drawLabelElement(295, 360, () => {
-                    ctx.textAlign = 'center';
-                    const badgeW = 190, badgeH = 48;
-                    const limeBadge = ctx.createLinearGradient(-badgeW/2, -badgeH/2, badgeW/2, badgeH/2);
-                    limeBadge.addColorStop(0, '#bef264');
-                    limeBadge.addColorStop(1, '#a3e635');
-                    ctx.fillStyle = limeBadge;
-                    ctx.beginPath();
-                    ctx.roundRect(-badgeW/2, -badgeH/2, badgeW, badgeH, 24);
-                    ctx.fill();
-                    ctx.strokeStyle = '#ffffff';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-
-                    ctx.fillStyle = '#064e3b';
-                    ctx.font = '900 34px Inter, sans-serif';
-                    ctx.fillText('NEXT', 0, 11);
-                });
-
-                drawLabelElement(355, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = 'bold 21px Inter, sans-serif';
-                    ctx.fillText('LEMON & LIME CITRUS', 0, 0);
-                });
-
-                drawLabelElement(385, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.fillStyle = '#bef264';
-                    ctx.font = '600 13px Inter, sans-serif';
-                    ctx.fillText('NATURAL CITRUS OILS • EXTRA SPARKLING', 0, 0);
-                });
-
-            } else { // Rango Next
-                drawLabelElement(225, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
-                    ctx.shadowBlur = 12;
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = '900 105px Outfit, sans-serif';
-                    ctx.fillText('Rango', 0, 0);
-                });
-
-                drawLabelElement(295, 360, () => {
-                    ctx.textAlign = 'center';
-                    const badgeW = 190, badgeH = 48;
-                    ctx.fillStyle = '#fef08a';
-                    ctx.beginPath();
-                    ctx.roundRect(-badgeW/2, -badgeH/2, badgeW, badgeH, 24);
-                    ctx.fill();
-                    ctx.strokeStyle = '#ffffff';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-
-                    ctx.fillStyle = '#9a3412';
-                    ctx.font = '900 34px Inter, sans-serif';
-                    ctx.fillText('NEXT', 0, 11);
-                });
-
-                drawLabelElement(355, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = 'bold 21px Inter, sans-serif';
-                    ctx.fillText('ZESTY ORANGE BURST', 0, 0);
-                });
-
-                drawLabelElement(385, 360, () => {
-                    ctx.textAlign = 'center';
-                    ctx.fillStyle = '#fed7aa';
-                    ctx.font = '600 13px Inter, sans-serif';
-                    ctx.fillText('SUN-RIPENED CITRUS JOY', 0, 0);
-                });
-            }
-
-            // Volume Pill Badge (X = 425)
-            drawLabelElement(425, 360, () => {
-                ctx.textAlign = 'center';
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
+            drawLabelElement(275, 360, () => {
+                // --- TOP YELLOW TILTED BANNER (All 4 SKUs) ---
+                ctx.save();
+                ctx.translate(-75, -195);
+                ctx.rotate(-0.07);
+                ctx.fillStyle = '#facc15';
                 ctx.beginPath();
-                ctx.roundRect(-100, -16, 200, 32, 16);
+                ctx.moveTo(0, 0);
+                ctx.lineTo(142, 4);
+                ctx.lineTo(136, 48);
+                ctx.lineTo(-4, 44);
+                ctx.closePath();
                 ctx.fill();
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.strokeStyle = (product.id === 'zero-next') ? '#ca8a04' : (product.id === 'fizup-next') ? '#15803d' : '#c2410c';
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 14px Inter, sans-serif';
-                ctx.fillText('250 ml • SERVE CHILLED', 0, 5);
-            });
-
-            // Halal Seal & Brand Pride (X = 465)
-            drawLabelElement(465, 360, () => {
+                ctx.fillStyle = (product.id === 'fizup-next') ? '#14532d' : (product.id === 'zero-next') ? '#451a03' : '#7c2d12';
+                ctx.font = 'bold 9px "Arial Black", Impact, sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-                ctx.font = 'bold 13px Inter, sans-serif';
-                ctx.fillText('🌙 100% HALAL CERTIFIED', 0, -4);
-                ctx.font = '500 11px Inter, sans-serif';
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-                ctx.fillText("PAKISTAN'S HOMEGROWN BEVERAGE LEADER", 0, 12);
+                ctx.fillText('CARBONATED', 68, 14);
+                const flavText = (product.id === 'fizup-next') ? 'LEMON FLAVOURED' :
+                                 (product.id === 'rango-next') ? 'ORANGE FLAVOURED' : 'COLA FLAVOURED';
+                ctx.fillText(flavText, 68, 27);
+                ctx.fillText('SOFT DRINK', 68, 40);
+                ctx.restore();
+
+                // --- PRODUCT-SPECIFIC FRONT ARTWORK ---
+                if (product.id === 'cola-next') {
+                    // Top Sweeping White Swooshes
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 6;
+                    ctx.beginPath();
+                    ctx.moveTo(15, -205);
+                    ctx.quadraticCurveTo(85, -170, 140, -95);
+                    ctx.stroke();
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(40, -210);
+                    ctx.quadraticCurveTo(100, -180, 140, -125);
+                    ctx.stroke();
+
+                    // Distressed Vertical NEXT (Stacked T, X, E, N reading upwards)
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    ctx.font = '900 84px Impact, "Arial Black", sans-serif';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.65)';
+                    ctx.shadowBlur = 12;
+
+                    ctx.fillText('T', 25, -95);
+                    ctx.fillText('X', 25, -20);
+                    ctx.fillText('E', 25, 55);
+                    ctx.fillText('N', 25, 130);
+
+                    // ® Mark
+                    ctx.font = 'bold 12px Inter, sans-serif';
+                    ctx.fillText('®', 72, -120);
+
+                    // Distress grunge speckles cutting through white letters
+                    ctx.fillStyle = '#8c091d';
+                    [
+                        [14, -112, 4, 6], [36, -92, 5, 3], [-2, -98, 4, 7],
+                        [8, -32, 5, 5], [38, -12, 6, 3], [22, -18, 7, 3],
+                        [12, 42, 5, 4], [36, 62, 4, 6], [18, 72, 6, 3],
+                        [6, 118, 4, 7], [34, 138, 5, 4], [20, 148, 6, 4]
+                    ].forEach(([sx, sy, sw, sh]) => ctx.fillRect(sx, sy, sw, sh));
+                    ctx.restore();
+
+                    // Cursive "Cola" running vertically alongside N and E
+                    ctx.save();
+                    ctx.translate(-62, 75);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.textAlign = 'center';
+                    ctx.font = 'bold 74px "Brush Script MT", Galada, cursive';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.75)';
+                    ctx.shadowBlur = 12;
+                    ctx.fillText('Cola', 0, 0);
+                    ctx.restore();
+
+                    // Bottom Sweeping White Swooshes
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 6;
+                    ctx.beginPath();
+                    ctx.moveTo(-140, 110);
+                    ctx.quadraticCurveTo(-70, 180, 20, 210);
+                    ctx.stroke();
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(-140, 140);
+                    ctx.quadraticCurveTo(-80, 195, 0, 220);
+                    ctx.stroke();
+
+                } else if (product.id === 'zero-next') {
+                    // Top Sweeping Red Swooshes
+                    ctx.strokeStyle = '#ef4444';
+                    ctx.lineWidth = 6;
+                    ctx.beginPath();
+                    ctx.moveTo(15, -205);
+                    ctx.quadraticCurveTo(85, -170, 140, -95);
+                    ctx.stroke();
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(40, -210);
+                    ctx.quadraticCurveTo(100, -180, 140, -125);
+                    ctx.stroke();
+
+                    // Distressed Vertical NEXT in Crimson Red
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    ctx.font = '900 84px Impact, "Arial Black", sans-serif';
+                    ctx.fillStyle = '#ef4444';
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+                    ctx.shadowBlur = 8;
+
+                    ctx.fillText('T', 25, -95);
+                    ctx.fillText('X', 25, -20);
+                    ctx.fillText('E', 25, 55);
+                    ctx.fillText('N', 25, 130);
+
+                    // ® Mark
+                    ctx.font = 'bold 12px Inter, sans-serif';
+                    ctx.fillText('®', 72, -120);
+
+                    // White distress speckles
+                    ctx.fillStyle = '#ffffff';
+                    [
+                        [14, -112, 4, 6], [36, -92, 5, 3], [-2, -98, 4, 7],
+                        [8, -32, 5, 5], [38, -12, 6, 3], [22, -18, 7, 3],
+                        [12, 42, 5, 4], [36, 62, 4, 6], [18, 72, 6, 3],
+                        [6, 118, 4, 7], [34, 138, 5, 4], [20, 148, 6, 4]
+                    ].forEach(([sx, sy, sw, sh]) => ctx.fillRect(sx, sy, sw, sh));
+                    ctx.restore();
+
+                    // Cursive "Zero" in Black
+                    ctx.save();
+                    ctx.translate(-62, 85);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.textAlign = 'center';
+                    ctx.font = 'bold 74px "Brush Script MT", Galada, cursive';
+                    ctx.fillStyle = '#0f172a';
+                    ctx.fillText('Zero', 0, 0);
+
+                    // Small vertical "Zero Sugar"
+                    ctx.font = 'bold 13px Inter, sans-serif';
+                    ctx.fillStyle = '#334155';
+                    ctx.fillText('Zero Sugar', 0, 28);
+                    ctx.restore();
+
+                    // Bottom Sweeping Red Swooshes
+                    ctx.strokeStyle = '#ef4444';
+                    ctx.lineWidth = 6;
+                    ctx.beginPath();
+                    ctx.moveTo(-140, 110);
+                    ctx.quadraticCurveTo(-70, 180, 20, 210);
+                    ctx.stroke();
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(-140, 140);
+                    ctx.quadraticCurveTo(-80, 195, 0, 220);
+                    ctx.stroke();
+
+                } else if (product.id === 'fizup-next') {
+                    // Concentric Citrus Bubble Rings
+                    ctx.strokeStyle = 'rgba(190, 242, 100, 0.45)';
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath(); ctx.arc(45, -95, 36, 0, Math.PI * 2); ctx.stroke();
+                    ctx.beginPath(); ctx.arc(-80, 40, 48, 0, Math.PI * 2); ctx.stroke();
+                    ctx.beginPath(); ctx.arc(40, 130, 42, 0, Math.PI * 2); ctx.stroke();
+
+                    // Yellow Citrus Sparkles
+                    ctx.fillStyle = '#facc15';
+                    ctx.beginPath(); ctx.arc(55, -85, 9, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(-10, 85, 11, 0, Math.PI * 2); ctx.fill();
+
+                    // Red Thumbs-Up Icon
+                    ctx.save();
+                    ctx.translate(-70, -75);
+                    ctx.fillStyle = '#dc2626';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 26, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#991b1b'; ctx.lineWidth = 2; ctx.stroke();
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = '28px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('👍', 0, 10);
+                    ctx.restore();
+
+                    // Slanted FIZUP NEXT (Rotated -22 deg)
+                    ctx.save();
+                    ctx.rotate(-0.38);
+                    ctx.textAlign = 'center';
+
+                    // 3D Shadow for FIZUP
+                    ctx.font = 'italic 900 68px Impact, "Arial Black", sans-serif';
+                    ctx.fillStyle = '#064e3b';
+                    ctx.fillText('FIZUP', 5, 0);
+                    ctx.fillText('FIZUP', 3, -2);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText('FIZUP', 0, -4);
+
+                    // Slanted NEXT in Emerald Green with Lime Outline
+                    ctx.font = '900 52px Impact, "Arial Black", sans-serif';
+                    ctx.strokeStyle = '#bef264';
+                    ctx.lineWidth = 5;
+                    ctx.strokeText('NEXT', 32, 50);
+                    ctx.fillStyle = '#024a28';
+                    ctx.fillText('NEXT', 32, 50);
+                    ctx.restore();
+
+                } else { // rango-next
+                    // Warm Golden Sunburst Rays
+                    ctx.save();
+                    for (let i = 0; i < 24; i += 2) {
+                        const angle = (i / 24) * Math.PI * 2;
+                        ctx.fillStyle = 'rgba(254, 215, 170, 0.22)';
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.arc(0, 0, 180, angle - 0.08, angle + 0.08);
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                    ctx.restore();
+
+                    // Golden & White Sweeping Swooshes
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 6;
+                    ctx.beginPath();
+                    ctx.moveTo(20, -205);
+                    ctx.quadraticCurveTo(90, -170, 140, -95);
+                    ctx.stroke();
+
+                    ctx.strokeStyle = '#fef08a';
+                    ctx.lineWidth = 3.5;
+                    ctx.beginPath();
+                    ctx.moveTo(42, -210);
+                    ctx.quadraticCurveTo(105, -180, 140, -125);
+                    ctx.stroke();
+
+                    // Central Glow Oval
+                    ctx.fillStyle = 'rgba(254, 243, 199, 0.45)';
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, 125, 90, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Curved RANGO NEXT Brand Logo
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    // RANGO 3D drop shadow
+                    ctx.font = '900 66px "Arial Black", Impact, sans-serif';
+                    ctx.fillStyle = '#9a3412';
+                    ctx.fillText('RANGO', 4, -10);
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 6;
+                    ctx.strokeText('RANGO', 0, -14);
+                    ctx.fillStyle = '#1e3a8a';
+                    ctx.fillText('RANGO', 0, -14);
+
+                    // NEXT badge
+                    ctx.font = '900 48px Impact, "Arial Black", sans-serif';
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 5;
+                    ctx.strokeText('NEXT', 0, 40);
+                    ctx.fillStyle = '#172554';
+                    ctx.fillText('NEXT', 0, 40);
+                    ctx.restore();
+
+                    // Bottom Sweeping Swooshes
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 6;
+                    ctx.beginPath();
+                    ctx.moveTo(-140, 110);
+                    ctx.quadraticCurveTo(-70, 180, 20, 210);
+                    ctx.stroke();
+                    ctx.strokeStyle = '#fef08a';
+                    ctx.lineWidth = 3.5;
+                    ctx.beginPath();
+                    ctx.moveTo(-140, 140);
+                    ctx.quadraticCurveTo(-80, 195, 0, 220);
+                    ctx.stroke();
+                }
+
+                // --- BOTTOM VOLUME & CERTIFICATION (All SKUs) ---
+                ctx.textAlign = 'right';
+                ctx.fillStyle = (product.id === 'zero-next') ? '#0f172a' : '#ffffff';
+                ctx.font = 'bold 22px Inter, "Arial Black", sans-serif';
+                ctx.fillText('250 ML', 135, 225);
+
+                ctx.textAlign = 'left';
+                ctx.fillStyle = (product.id === 'zero-next') ? 'rgba(15, 23, 42, 0.85)' : 'rgba(255, 255, 255, 0.9)';
+                ctx.font = 'bold 12px Inter, sans-serif';
+                ctx.fillText('🌙 100% HALAL', -135, 225);
             });
 
-            // Dynamic bottom swoosh curve (X = 495)
-            drawLabelElement(495, 360, () => {
-                ctx.strokeStyle = (product.id === 'cola-next') ? '#fbbf24' :
-                                  (product.id === 'zero-next') ? '#ef4444' :
-                                  (product.id === 'fizup-next') ? '#bef264' : '#fde047';
-                ctx.lineWidth = 2.5;
-                ctx.beginPath();
-                ctx.moveTo(-160, 0);
-                ctx.bezierCurveTo(-70, -15, 70, 15, 160, 0);
-                ctx.stroke();
-            });
-
-            // 6. LEFT FLANK (Nutrition Facts at Y = 160)
-            drawLabelElement(280, 160, () => {
+            // 6. BACK FLANK (Nutrition Facts at Y = 780)
+            drawLabelElement(280, 780, () => {
                 ctx.textAlign = 'left';
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
                 ctx.beginPath();
@@ -2263,8 +2364,8 @@
                 ctx.fillText('Recycle Aluminum ♻', -105, 62);
             });
 
-            // 7. RIGHT FLANK (Barcode at Y = 560)
-            drawLabelElement(280, 560, () => {
+            // 7. BACK FLANK (Barcode at Y = 920)
+            drawLabelElement(280, 920, () => {
                 ctx.textAlign = 'center';
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
                 ctx.beginPath();
@@ -2301,158 +2402,100 @@
         const modelViewer = document.querySelector('#product-model');
         const mainProduct3D = document.querySelector('.main-product-3d');
         const leavesBG = document.querySelector('.leaves-container');
-        const propsCanvas = document.getElementById('floating-props-canvas');
+        const propsContainer = document.getElementById('floating-props-container');
         const canFallbackWrapper = document.getElementById('can-fallback-wrapper');
         const canFallbackImg = document.getElementById('can-fallback-img');
 
         // =============================================================
-        // THREE.JS FLAVOUR-SPECIFIC 3D FLOATING PROPS ENGINE
-        // Frosted Ice Cubes for Cola/Zero • Citrus Wheels for Fizup/Rango
+        // FLAVOUR-SPECIFIC FLOATING PROPS ENGINE (DOM BASED)
+        // Fruit, Sugar Cubes, Ice Cubes, and Water Splashes
+        // 100% Reliable across all browsers & file:/// protocol
         // =============================================================
-        let propsScene, propsCamera, propsRenderer;
-        let propsGroup = null;
-        let propsItems = [];
-        const propTextureLoader = (typeof THREE !== 'undefined') ? new THREE.TextureLoader() : null;
-        let ice1Tex, ice2Tex, sugarCubeTex, limeTex, lemonTex, orangeTex, orangeLeafTex;
+        let activeDomProps = [];
 
-        function initFloatingProps() {
-            if (!propsCanvas || typeof THREE === 'undefined') return;
-
-            propsScene = new THREE.Scene();
-            propsCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-            propsCamera.position.z = 24;
-
-            propsRenderer = new THREE.WebGLRenderer({ canvas: propsCanvas, alpha: true, antialias: true });
-            propsRenderer.setSize(window.innerWidth, window.innerHeight);
-            propsRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            // Studio Lighting
-            const ambient = new THREE.AmbientLight(0xffffff, 1.1);
-            propsScene.add(ambient);
-
-            const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.0);
-            dirLight1.position.set(10, 15, 12);
-            propsScene.add(dirLight1);
-
-            const dirLight2 = new THREE.DirectionalLight(0xffedd5, 0.6);
-            dirLight2.position.set(-10, -10, -5);
-            propsScene.add(dirLight2);
-
-            // Load REAL photorealistic transparent photographic assets
-            ice1Tex = propTextureLoader.load('assets/ice1.png');
-            ice2Tex = propTextureLoader.load('assets/ice2.png');
-            sugarCubeTex = propTextureLoader.load('assets/sugar_cube.png');
-            limeTex = propTextureLoader.load('assets/lime_slice.png');
-            lemonTex = propTextureLoader.load('assets/lemon.png');
-            orangeTex = propTextureLoader.load('assets/orange_slice_wheel.png');
-            orangeLeafTex = propTextureLoader.load('assets/orange_leaf.png');
-
-            propsGroup = new THREE.Group();
-            propsScene.add(propsGroup);
-
-            rebuildPropsForProduct(COLA_NEXT_PRODUCTS[0]);
-            window.addEventListener('resize', onPropsResize);
-        }
-
-        function onPropsResize() {
-            if (!propsCamera || !propsRenderer) return;
-            propsCamera.aspect = window.innerWidth / window.innerHeight;
-            propsCamera.updateProjectionMatrix();
-            propsRenderer.setSize(window.innerWidth, window.innerHeight);
-        }
+        const FLAVOUR_PROPS_CONFIG = {
+            'cola-next': [
+                // Sugar cubes + crystal ice cubes + dynamic water splashes
+                { src: 'assets/sugar_cube.png', x: 21, y: 78, w: 95, h: 95, rot: -12, floatSpeed: 1.2, floatAmp: 16, phase: 0.2, pX: 30, pY: 20 },
+                { src: 'assets/sugar_cube.png', x: 74, y: 22, w: 80, h: 80, rot: 25, floatSpeed: 0.9, floatAmp: 14, phase: 1.5, pX: -26, pY: -16 },
+                { src: 'assets/sugar_cube.png', x: 38, y: 86, w: 65, h: 65, rot: -8, floatSpeed: 1.4, floatAmp: 12, phase: 2.8, pX: 18, pY: 14 },
+                { src: 'assets/ice1.png', x: 14, y: 30, w: 110, h: 110, rot: 15, floatSpeed: 1.1, floatAmp: 18, phase: 0.8, pX: 34, pY: 24 },
+                { src: 'assets/ice2.png', x: 82, y: 64, w: 115, h: 115, rot: -20, floatSpeed: 0.85, floatAmp: 20, phase: 2.1, pX: -32, pY: 22 },
+                { src: 'assets/ice1.png', x: 32, y: 20, w: 75, h: 75, rot: -18, floatSpeed: 1.3, floatAmp: 15, phase: 3.4, pX: 20, pY: -18 },
+                { src: 'assets/ice2.png', x: 12, y: 60, w: 85, h: 85, rot: 18, floatSpeed: 1.0, floatAmp: 16, phase: 1.1, pX: 26, pY: 16 },
+                { src: 'assets/water_splash1.png', x: 28, y: 44, w: 140, h: 140, rot: -10, floatSpeed: 0.7, floatAmp: 10, phase: 0.5, pX: 16, pY: 10, opacity: 0.85 },
+                { src: 'assets/water_splash2.png', x: 67, y: 48, w: 150, h: 150, rot: 20, floatSpeed: 0.75, floatAmp: 12, phase: 2.4, pX: -18, pY: 12, opacity: 0.85 }
+            ],
+            'zero-next': [
+                // Zero Sugar: NO sugar cubes, NO fruits! ONLY Ice cubes + Water splashes!
+                { src: 'assets/ice1.png', x: 15, y: 28, w: 120, h: 120, rot: 15, floatSpeed: 1.1, floatAmp: 18, phase: 0.5, pX: 35, pY: 25 },
+                { src: 'assets/ice2.png', x: 80, y: 60, w: 130, h: 130, rot: -25, floatSpeed: 0.9, floatAmp: 20, phase: 1.8, pX: -35, pY: 22 },
+                { src: 'assets/ice1.png', x: 33, y: 18, w: 82, h: 82, rot: -15, floatSpeed: 1.3, floatAmp: 14, phase: 3.1, pX: 22, pY: -18 },
+                { src: 'assets/ice2.png', x: 12, y: 66, w: 92, h: 92, rot: 20, floatSpeed: 1.0, floatAmp: 16, phase: 1.2, pX: 26, pY: 16 },
+                { src: 'assets/ice1.png', x: 72, y: 24, w: 88, h: 88, rot: -10, floatSpeed: 0.95, floatAmp: 15, phase: 2.6, pX: -25, pY: -15 },
+                { src: 'assets/ice2.png', x: 38, y: 84, w: 75, h: 75, rot: 30, floatSpeed: 1.25, floatAmp: 12, phase: 0.9, pX: 18, pY: 15 },
+                { src: 'assets/water_splash1.png', x: 26, y: 44, w: 150, h: 150, rot: -12, floatSpeed: 0.7, floatAmp: 10, phase: 0.6, pX: 16, pY: 12, opacity: 0.9 },
+                { src: 'assets/water_splash2.png', x: 67, y: 46, w: 160, h: 160, rot: 22, floatSpeed: 0.75, floatAmp: 12, phase: 2.2, pX: -20, pY: 14, opacity: 0.9 }
+            ],
+            'fizup-next': [
+                // Real Persian Lime Wheels + Lemon Slices + Citrus Leaves + Ice Cubes + Water Splashes
+                { src: 'assets/lime_slice.png', x: 12, y: 30, w: 135, h: 135, rot: -18, floatSpeed: 1.1, floatAmp: 18, phase: 0.4, pX: 35, pY: 22 },
+                { src: 'assets/lemon.png', x: 78, y: 20, w: 125, h: 125, rot: 25, floatSpeed: 0.9, floatAmp: 16, phase: 1.9, pX: -30, pY: -18 },
+                { src: 'assets/lime_slice.png', x: 18, y: 76, w: 115, h: 115, rot: 15, floatSpeed: 1.25, floatAmp: 15, phase: 2.7, pX: 25, pY: 18 },
+                { src: 'assets/lemon.png', x: 76, y: 70, w: 120, h: 120, rot: -28, floatSpeed: 0.85, floatAmp: 18, phase: 1.1, pX: -28, pY: 20 },
+                { src: 'assets/orange_leaf.png', x: 28, y: 18, w: 75, h: 75, rot: -45, floatSpeed: 1.4, floatAmp: 12, phase: 3.2, pX: 20, pY: -14 },
+                { src: 'assets/orange_leaf.png', x: 84, y: 46, w: 70, h: 70, rot: 35, floatSpeed: 1.3, floatAmp: 14, phase: 0.7, pX: -22, pY: 14 },
+                { src: 'assets/ice1.png', x: 34, y: 84, w: 85, h: 85, rot: 12, floatSpeed: 1.05, floatAmp: 15, phase: 1.6, pX: 22, pY: 16 },
+                { src: 'assets/ice2.png', x: 65, y: 26, w: 80, h: 80, rot: -15, floatSpeed: 0.95, floatAmp: 14, phase: 2.3, pX: -20, pY: -12 },
+                { src: 'assets/water_splash1.png', x: 26, y: 45, w: 140, h: 140, rot: -8, floatSpeed: 0.7, floatAmp: 10, phase: 0.5, pX: 16, pY: 10, opacity: 0.85 },
+                { src: 'assets/water_splash2.png', x: 67, y: 48, w: 150, h: 150, rot: 18, floatSpeed: 0.75, floatAmp: 12, phase: 2.5, pX: -18, pY: 12, opacity: 0.85 }
+            ],
+            'rango-next': [
+                // Real Juicy Orange Wheels + Citrus Leaves + Ice Cubes + Water Splashes
+                { src: 'assets/orange_slice_wheel.png', x: 12, y: 28, w: 145, h: 145, rot: -20, floatSpeed: 1.1, floatAmp: 18, phase: 0.3, pX: 35, pY: 22 },
+                { src: 'assets/orange_slice_wheel.png', x: 80, y: 20, w: 135, h: 135, rot: 28, floatSpeed: 0.85, floatAmp: 16, phase: 1.8, pX: -32, pY: -18 },
+                { src: 'assets/orange_slice_wheel.png', x: 18, y: 78, w: 125, h: 125, rot: 14, floatSpeed: 1.2, floatAmp: 15, phase: 2.8, pX: 26, pY: 18 },
+                { src: 'assets/orange_slice_wheel.png', x: 74, y: 70, w: 120, h: 120, rot: -24, floatSpeed: 0.9, floatAmp: 18, phase: 1.2, pX: -26, pY: 20 },
+                { src: 'assets/orange_leaf.png', x: 28, y: 16, w: 80, h: 80, rot: -40, floatSpeed: 1.35, floatAmp: 12, phase: 3.1, pX: 20, pY: -14 },
+                { src: 'assets/orange_leaf.png', x: 84, y: 44, w: 75, h: 75, rot: 30, floatSpeed: 1.3, floatAmp: 14, phase: 0.8, pX: -22, pY: 14 },
+                { src: 'assets/ice1.png', x: 34, y: 84, w: 86, h: 86, rot: 10, floatSpeed: 1.05, floatAmp: 15, phase: 1.5, pX: 22, pY: 16 },
+                { src: 'assets/ice2.png', x: 66, y: 26, w: 82, h: 82, rot: -16, floatSpeed: 0.95, floatAmp: 14, phase: 2.4, pX: -20, pY: -12 },
+                { src: 'assets/water_splash1.png', x: 27, y: 44, w: 145, h: 145, rot: -10, floatSpeed: 0.7, floatAmp: 10, phase: 0.6, pX: 16, pY: 12, opacity: 0.85 },
+                { src: 'assets/water_splash2.png', x: 67, y: 48, w: 155, h: 155, rot: 20, floatSpeed: 0.75, floatAmp: 12, phase: 2.3, pX: -18, pY: 12, opacity: 0.85 }
+            ]
+        };
 
         function rebuildPropsForProduct(product) {
-            if (!propsGroup || typeof THREE === 'undefined') return;
+            if (!propsContainer) return;
+            propsContainer.innerHTML = '';
+            activeDomProps = [];
 
-            while (propsGroup.children.length > 0) {
-                const obj = propsGroup.children[0];
-                propsGroup.remove(obj);
-            }
-            propsItems = [];
+            const list = FLAVOUR_PROPS_CONFIG[product.id] || FLAVOUR_PROPS_CONFIG['cola-next'];
+            list.forEach((cfg, idx) => {
+                const el = document.createElement('div');
+                el.className = 'floating-prop' + (cfg.src.includes('splash') ? ' prop-splash' : '');
+                el.style.left = cfg.x + 'vw';
+                el.style.top = cfg.y + 'vh';
+                el.style.width = cfg.w + 'px';
+                el.style.height = cfg.h + 'px';
+                if (cfg.opacity) el.style.opacity = cfg.opacity;
 
-            const slots = [
-                { x: -10.2, y:  5.2, z:  1.2, scale: 1.35 },
-                { x:  10.8, y:  5.8, z: -0.5, scale: 1.45 },
-                { x: -9.5,  y: -5.0, z: -1.0, scale: 1.25 },
-                { x:  10.2, y: -4.5, z:  1.4, scale: 1.35 },
-                { x: -6.0,  y:  7.5, z: -2.0, scale: 1.05 },
-                { x:  6.8,  y:  7.8, z:  0.8, scale: 1.15 },
-                { x: -12.5, y: -0.2, z: -1.5, scale: 1.10 },
-                { x:  12.5, y:  0.5, z:  0.5, scale: 1.30 },
-                { x: -4.5,  y: -7.5, z:  1.0, scale: 1.10 },
-                { x:  4.5,  y: -7.8, z: -1.2, scale: 1.05 }
-            ];
+                const img = document.createElement('img');
+                img.src = cfg.src;
+                img.alt = product.name + ' Prop ' + idx;
+                el.appendChild(img);
+                propsContainer.appendChild(el);
 
-            slots.forEach((slot, i) => {
-                let chosenTex = null;
-                let sizeW = 3.6 * slot.scale;
-                let sizeH = 3.6 * slot.scale;
-
-                if (product.id === 'cola-next') {
-                    // Realistic Crystal Ice Cubes & White Granulated Sugar Cubes
-                    if (i % 3 === 0) chosenTex = ice1Tex;
-                    else if (i % 3 === 1) chosenTex = ice2Tex;
-                    else {
-                        chosenTex = sugarCubeTex;
-                        sizeW = 3.2 * slot.scale;
-                        sizeH = 3.2 * slot.scale;
-                    }
-                } else if (product.id === 'zero-next') {
-                    // Zero Sugar: Pure crystal ice cubes
-                    chosenTex = (i % 2 === 0) ? ice1Tex : ice2Tex;
-                } else if (product.id === 'fizup-next') {
-                    // Real juicy lime wheels and fresh lemons
-                    if (i % 2 === 0) {
-                        chosenTex = limeTex;
-                        sizeW = 3.8 * slot.scale;
-                        sizeH = 3.8 * slot.scale;
-                    } else {
-                        chosenTex = lemonTex;
-                        sizeW = 4.2 * slot.scale;
-                        sizeH = 3.2 * slot.scale;
-                    }
-                } else { // rango-next
-                    // Real juicy orange wheels and citrus leaves
-                    if (i % 2 === 0) {
-                        chosenTex = orangeTex;
-                        sizeW = 4.0 * slot.scale;
-                        sizeH = 4.0 * slot.scale;
-                    } else {
-                        chosenTex = orangeLeafTex;
-                        sizeW = 3.4 * slot.scale;
-                        sizeH = 2.6 * slot.scale;
-                    }
-                }
-
-                const geom = new THREE.PlaneGeometry(sizeW, sizeH);
-                const mat = new THREE.MeshStandardMaterial({
-                    map: chosenTex,
-                    transparent: true,
-                    alphaTest: 0.05,
-                    roughness: 0.2,
-                    metalness: 0.05,
-                    side: THREE.DoubleSide
-                });
-
-                const mesh = new THREE.Mesh(geom, mat);
-                mesh.position.set(slot.x, slot.y, slot.z);
-                mesh.rotation.x = (Math.random() - 0.5) * 0.7;
-                mesh.rotation.y = (Math.random() - 0.5) * 0.7;
-                mesh.rotation.z = Math.random() * Math.PI * 2;
-
-                propsGroup.add(mesh);
-
-                propsItems.push({
-                    mesh,
-                    baseX: slot.x,
-                    baseY: slot.y,
-                    baseZ: slot.z,
-                    rotSpeedX: (Math.random() - 0.5) * 0.008,
-                    rotSpeedY: (Math.random() - 0.5) * 0.008,
-                    rotSpeedZ: (Math.random() - 0.5) * 0.006,
-                    floatSpeed: 0.8 + Math.random() * 0.5,
-                    floatPhase: Math.random() * Math.PI * 2,
-                    floatAmp: 0.35 + Math.random() * 0.2
+                activeDomProps.push({
+                    el,
+                    baseX: cfg.x,
+                    baseY: cfg.y,
+                    rot: cfg.rot || 0,
+                    floatSpeed: cfg.floatSpeed || 1.0,
+                    floatAmp: cfg.floatAmp || 15,
+                    phase: cfg.phase || (idx * 0.5),
+                    pX: cfg.pX || 25,
+                    pY: cfg.pY || 18
                 });
             });
         }
@@ -2692,10 +2735,31 @@
                     productTextures[prod.id] = await modelViewer.createTexture(dataUrl);
                 }
 
-                if (modelViewer.model && productTextures['cola-next']) {
+                if (modelViewer.model) {
                     const material = modelViewer.model.materials[0];
-                    if (material && material.pbrMetallicRoughness.baseColorTexture) {
-                        material.pbrMetallicRoughness.baseColorTexture.setTexture(productTextures['cola-next']);
+                    if (material) {
+                        // Clear normal map & metallic-roughness map to completely remove embossed Portuguese text
+                        if (material.normalTexture) {
+                            try {
+                                material.normalTexture.setTexture(null);
+                            } catch (e) {
+                                console.warn("Normal map clear:", e);
+                            }
+                        }
+                        if (material.pbrMetallicRoughness) {
+                            try {
+                                if (material.pbrMetallicRoughness.metallicRoughnessTexture) {
+                                    material.pbrMetallicRoughness.metallicRoughnessTexture.setTexture(null);
+                                }
+                                material.pbrMetallicRoughness.setRoughnessFactor(0.25);
+                                material.pbrMetallicRoughness.setMetallicFactor(0.85);
+                            } catch (e) {
+                                console.warn("PBR setup:", e);
+                            }
+                            if (material.pbrMetallicRoughness.baseColorTexture && productTextures['cola-next']) {
+                                material.pbrMetallicRoughness.baseColorTexture.setTexture(productTextures['cola-next']);
+                            }
+                        }
                     }
                 }
             } catch (err) {
@@ -2992,8 +3056,8 @@
             activeBubbleInterval = coords.bubbleRate;
 
             // 4. Adapt floating props (Translucent see-through on other tabs)
-            if (propsCanvas) {
-                gsap.to(propsCanvas, { opacity: coords.berryAlpha, duration: 0.6 });
+            if (propsContainer) {
+                gsap.to(propsContainer, { opacity: coords.berryAlpha, duration: 0.6 });
             }
             if (leavesBG) {
                 gsap.to(leavesBG, { opacity: tabId === 'eco' ? 1 : 0.45, duration: 0.6 });
@@ -3119,20 +3183,15 @@
             const finalElevation = currentOrbitElevation + (currentMouse.y * 20);
             modelViewer.cameraOrbit = `${finalAzimuth}deg ${finalElevation}deg ${currentOrbitDistance}%`;
 
-            // Update Three.js 3D Flavour Floating Props
-            if (propsRenderer && propsScene && propsCamera && propsGroup) {
-                propsGroup.position.x += ((currentMouse.x * 3.5) - propsGroup.position.x) * 0.05;
-                propsGroup.position.y += ((-currentMouse.y * 2.5) - propsGroup.position.y) * 0.05;
-
-                propsItems.forEach(item => {
-                    item.mesh.rotation.x += item.rotSpeedX;
-                    item.mesh.rotation.y += item.rotSpeedY;
-                    item.mesh.rotation.z += item.rotSpeedZ;
-                    const floatY = Math.sin(time * item.floatSpeed + item.floatPhase) * item.floatAmp;
-                    item.mesh.position.y = item.baseY + floatY;
+            // Update Floating Flavour Props (Fruit, Sugar Cubes, Ice Cubes, Water Splashes)
+            if (activeDomProps.length > 0) {
+                activeDomProps.forEach(item => {
+                    const floatY = Math.sin(time * item.floatSpeed + item.phase) * item.floatAmp;
+                    const floatRot = Math.sin(time * (item.floatSpeed * 0.7) + item.phase) * 5;
+                    const offX = currentMouse.x * item.pX;
+                    const offY = currentMouse.y * item.pY;
+                    item.el.style.transform = `translate3d(${offX}px, ${offY + floatY}px, 0) rotate(${item.rot + floatRot}deg)`;
                 });
-
-                propsRenderer.render(propsScene, propsCamera);
             }
 
             // Update leaves floating motion
@@ -3183,8 +3242,8 @@
         }
         scheduleNextBubble();
 
-        // Initialize 3D Floating Props & Carousel on page boot
-        initFloatingProps();
+        // Initialize Floating Props & Carousel on page boot
+        rebuildPropsForProduct(COLA_NEXT_PRODUCTS[0]);
         renderCarouselCards();
         updateProductContent(COLA_NEXT_PRODUCTS[0]);
     </script>
