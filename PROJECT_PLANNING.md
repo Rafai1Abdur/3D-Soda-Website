@@ -66,10 +66,54 @@ The website combines Google's `<model-viewer>` 3D WebGL engine and GSAP to deliv
 
 ---
 
-## 6. Implementation Milestones
+## 6. Strategic Improvement Roadmap: Options A through E
 
-- [x] **Phase 1: Codebase Inspection & Planning**: Evaluated `index.html` single-page architecture and Google `<model-viewer>` rendering.
-- [x] **Phase 2: Brand & Market Research**: Extracted verified ingredients, packaging metrics, sustainability data, and consumer reviews.
-- [x] **Phase 3: Cola Next 3D Packaging & Label PBR Texturing**: Created brand-accurate PBR labels for Cola Next, Zero Next, Fizup Next, and Rango Next.
-- [x] **Phase 4: Multi-Product Showcase & Carousel**: Implemented interactive 4-card brand switcher with seamless 720° spin transitions.
-- [x] **Phase 5: Cross-Tab Dynamic Content**: Connected Home, Ingredients, Taste, Eco, and Reviews to the active product data model.
+### 🎯 Option A: 3D Realism, Precise Can Label Alignment & Flavour Props (Active Step)
+- **Precise 3D Can Artwork Alignment**:
+  - Calibrate texture UV wrapping coordinates so that the front-facing brand logos (Cola Next, Zero Next, Fizup Next, Rango Next), "A Product of Mezan" top badge, Halal seal, volume "250ml", and bottom ribbon align with geometry center and zero rotational skew.
+  - Add realistic micro-condensation droplets and cold frost specular sheen maps to the aluminum can surface.
+- **Flavour-Specific Floating 3D Props**:
+  - Replace generic cherries with custom, flavour-tethered 3D visuals:
+    - *Cola Next & Zero Next*: Crystal frosted ice cubes, carbonation bubble geysers, and caramel spheres.
+    - *Fizup Next*: Fresh sliced lemon wheels, lime wedges, and crisp mint leaves.
+    - *Rango Next*: Sun-drenched orange wedges, citrus droplets, and golden peel spirals.
+  - Retain translucency (`berryAlpha: 0.3`) on secondary tabs so reading cards are never blocked.
+
+---
+
+### 📦 Option B: Packaging Format Toggle (250ml Can vs. PET Bottle)
+- Interactive container switcher (`🥫 Slim Can` | `🍾 PET Bottle`).
+- Real-time container silhouette swap with transparent liquid shading (cola dark amber, fizup crystal clear, rango glowing orange), corrugated bottle ridges, and Mezan's signature 26/22 cap.
+
+---
+
+### 🍇 Option C: Catalogue Expansion (Specialty Beverages)
+- Add Mezan's regional specialty lines to the carousel:
+  - **Anaar Next** (Pomegranate soda, ruby-red branding).
+  - **Lychee Next** (Exotic lychee soda, pearlescent pink branding).
+  - **Mint Fizup Next** (Herbal fresh lemon-lime + desi garden mint).
+  - **Storm Next** (Mezan's caffeinated energy drink with lightning bolt graphics).
+
+---
+
+## 🛒 Option D: "Where to Buy in Pakistan" & Retail Integration
+- Direct quick-order integration with major Pakistani grocery platforms:
+  - *Daraz.pk Verified Brand Store* (Nationwide shipping).
+  - *Foodpanda / Pandamart* (Express 30-minute delivery in Karachi, Lahore, Islamabad).
+  - *Carrefour Pakistan & Naheed Supermarket*.
+- Regional metro availability badges (Karachi, Lahore, Islamabad, Rawalpindi, Faisalabad, Multan, Peshawar).
+
+---
+
+### 🎬 Option E: Official Video Advertisement & Brand Campaign (Inspired by colanext.com)
+- Integrate a cinematic video advertisement feature inspired by the official `colanext.com` brand showcase:
+  - Header or Hero "Watch Film" / "Pakistan's Heartbeat Campaign" glass button.
+  - Smooth frosted-glass video modal / cinematic overlay presenting Cola Next's official commercial campaigns celebrating Pakistani youth, sports, cricket, and cultural pride.
+  - Ambient audio ducking with play/pause and close controls.
+
+---
+
+## 7. Phased Execution Order
+1. **First**: Complete and verify **Option A** (3D Can Label Alignment + Realistic Condensation + Flavour-Specific Props).
+2. **Review Gate**: Inspect and verify Option A with user feedback.
+3. **Subsequent**: Progress sequentially to Option B, Option C, Option D, and Option E upon approval.
