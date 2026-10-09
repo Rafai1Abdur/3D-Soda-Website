@@ -249,10 +249,37 @@
             left: 50%;
             transform: translate(-50%, -50%) rotate(25deg);
             pointer-events: none;
-            transition: filter 0.3s ease;
+            transition: filter 0.3s ease, opacity 0.5s ease;
         }
 
         .main-product-3d[camera-controls] { pointer-events: auto; }
+
+        .can-fallback-wrapper {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(25deg);
+            width: 80vw;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            pointer-events: auto;
+            transition: opacity 0.5s ease;
+        }
+
+        .can-fallback-wrapper img {
+            max-width: 320px;
+            max-height: 520px;
+            object-fit: contain;
+            filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.7));
+            transition: transform 0.4s ease;
+        }
+
+        .can-fallback-wrapper img:hover {
+            transform: scale(1.05);
+        }
 
         /* Floating Leaves */
         .leaves-container {
@@ -532,6 +559,7 @@
             display: block;
             pointer-events: none;
             border-radius: 8px;
+            object-fit: contain;
         }
 
         .card:hover .card-can-canvas {
@@ -1243,10 +1271,10 @@
 
             <!-- 3a. Far Background Floating Leaves -->
             <div class="leaves-container">
-                <model-viewer class="leaf l1" src="leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="45deg 75deg 105%"></model-viewer>
-                <model-viewer class="leaf l2" src="leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="-30deg 60deg 105%"></model-viewer>
-                <model-viewer class="leaf l3" src="leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="120deg 85deg 105%"></model-viewer>
-                <model-viewer class="leaf l4" src="leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="10deg 45deg 105%"></model-viewer>
+                <model-viewer class="leaf l1" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="45deg 75deg 105%"></model-viewer>
+                <model-viewer class="leaf l2" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="-30deg 60deg 105%"></model-viewer>
+                <model-viewer class="leaf l3" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="120deg 85deg 105%"></model-viewer>
+                <model-viewer class="leaf l4" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="10deg 45deg 105%"></model-viewer>
             </div>
 
             <!-- ==============================================
@@ -1487,11 +1515,16 @@
 
             <!-- 3d. Center product (the 3D can) -->
             <div class="hero-center">
-                <model-viewer id="product-model" src="deit_soda2.glb" alt="Cola Next 3D Product" camera-controls
+                <model-viewer id="product-model" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb" alt="Cola Next 3D Product" camera-controls
                     disable-zoom shadow-intensity="0" environment-image="neutral" exposure="1.5"
                     interaction-prompt="none" camera-orbit="0deg 90deg 380%" field-of-view="30deg"
-                    class="main-product-3d">
+                    class="main-product-3d" loading="eager" reveal="auto"
+                    poster="assets/cola_sku_250.webp">
                 </model-viewer>
+                <!-- Guaranteed Fallback Image if 3D model fails or WebGL is blocked -->
+                <div id="can-fallback-wrapper" class="can-fallback-wrapper" style="display: none;">
+                    <img id="can-fallback-img" src="assets/cola_sku_250.webp" alt="Cola Next Beverage Can" />
+                </div>
             </div>
 
         </div>
@@ -1565,6 +1598,7 @@
             {
                 id: "cola-next",
                 name: "Cola Next",
+                cardImage: "assets/cola_sku_250.webp",
                 variant: "Original Taste",
                 price: "Rs. 100",
                 heroLine1: "Bold",
@@ -1618,6 +1652,7 @@
             {
                 id: "zero-next",
                 name: "Zero Next",
+                cardImage: "assets/zero_cola_sku_250.webp",
                 variant: "Sugar Free",
                 price: "Rs. 100",
                 heroLine1: "Zero",
@@ -1671,6 +1706,7 @@
             {
                 id: "fizup-next",
                 name: "Fizup Next",
+                cardImage: "assets/fizup_sku_250.webp",
                 variant: "Lemon & Lime",
                 price: "Rs. 100",
                 heroLine1: "Crisp",
@@ -1724,6 +1760,7 @@
             {
                 id: "rango-next",
                 name: "Rango Next",
+                cardImage: "assets/rango_sku_300.webp",
                 variant: "Zesty Orange",
                 price: "Rs. 100",
                 heroLine1: "Sunny",
@@ -2265,6 +2302,8 @@
         const mainProduct3D = document.querySelector('.main-product-3d');
         const leavesBG = document.querySelector('.leaves-container');
         const propsCanvas = document.getElementById('floating-props-canvas');
+        const canFallbackWrapper = document.getElementById('can-fallback-wrapper');
+        const canFallbackImg = document.getElementById('can-fallback-img');
 
         // =============================================================
         // THREE.JS FLAVOUR-SPECIFIC 3D FLOATING PROPS ENGINE
@@ -2273,96 +2312,8 @@
         let propsScene, propsCamera, propsRenderer;
         let propsGroup = null;
         let propsItems = [];
-        let limeTexture, lemonTexture, orangeTexture;
-
-        function createCitrusCanvasTexture(type) {
-            const c = document.createElement('canvas');
-            c.width = 512;
-            c.height = 512;
-            const ctx = c.getContext('2d');
-            const cx = 256, cy = 256;
-
-            let rindColor, innerRind, pulpColor, pulpHighlight;
-            if (type === 'lime') {
-                rindColor = '#15803d';
-                innerRind = '#4ade80';
-                pulpColor = '#86efac';
-                pulpHighlight = '#dcfce7';
-            } else if (type === 'lemon') {
-                rindColor = '#ca8a04';
-                innerRind = '#facc15';
-                pulpColor = '#fef08a';
-                pulpHighlight = '#fef9c3';
-            } else { // orange
-                rindColor = '#c2410c';
-                innerRind = '#ea580c';
-                pulpColor = '#fb923c';
-                pulpHighlight = '#ffedd5';
-            }
-
-            // Outer Rind
-            ctx.beginPath();
-            ctx.arc(cx, cy, 250, 0, Math.PI * 2);
-            ctx.fillStyle = rindColor;
-            ctx.fill();
-
-            // Inner Rind
-            ctx.beginPath();
-            ctx.arc(cx, cy, 240, 0, Math.PI * 2);
-            ctx.fillStyle = innerRind;
-            ctx.fill();
-
-            // White Pith (Albedo)
-            ctx.beginPath();
-            ctx.arc(cx, cy, 226, 0, Math.PI * 2);
-            ctx.fillStyle = '#f8fafc';
-            ctx.fill();
-
-            // Radial pulp wedges (9 segments)
-            const segments = 9;
-            const innerR = 26;
-            const outerR = 212;
-            const segAngle = (Math.PI * 2) / segments;
-            const gap = 0.08;
-
-            for (let i = 0; i < segments; i++) {
-                const start = i * segAngle + gap;
-                const end = (i + 1) * segAngle - gap;
-
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(cx, cy, outerR, start, end);
-                ctx.arc(cx, cy, innerR, end, start, true);
-                ctx.closePath();
-
-                const pGrad = ctx.createRadialGradient(cx, cy, innerR, cx, cy, outerR);
-                pGrad.addColorStop(0, pulpHighlight);
-                pGrad.addColorStop(0.65, pulpColor);
-                pGrad.addColorStop(1, innerRind);
-                ctx.fillStyle = pGrad;
-                ctx.fill();
-
-                // Vesicle streaks
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
-                ctx.lineWidth = 2;
-                for (let r = innerR + 25; r < outerR - 15; r += 28) {
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, r, start + 0.05, end - 0.05);
-                    ctx.stroke();
-                }
-                ctx.restore();
-            }
-
-            // White central core
-            ctx.beginPath();
-            ctx.arc(cx, cy, innerR + 2, 0, Math.PI * 2);
-            ctx.fillStyle = '#ffffff';
-            ctx.fill();
-
-            const tex = new THREE.CanvasTexture(c);
-            tex.generateMipmaps = true;
-            return tex;
-        }
+        const propTextureLoader = (typeof THREE !== 'undefined') ? new THREE.TextureLoader() : null;
+        let ice1Tex, ice2Tex, sugarCubeTex, limeTex, lemonTex, orangeTex, orangeLeafTex;
 
         function initFloatingProps() {
             if (!propsCanvas || typeof THREE === 'undefined') return;
@@ -2376,20 +2327,25 @@
             propsRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
             // Studio Lighting
-            const ambient = new THREE.AmbientLight(0xffffff, 0.9);
+            const ambient = new THREE.AmbientLight(0xffffff, 1.1);
             propsScene.add(ambient);
 
-            const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.2);
+            const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.0);
             dirLight1.position.set(10, 15, 12);
             propsScene.add(dirLight1);
 
-            const dirLight2 = new THREE.DirectionalLight(0xbae6fd, 0.8);
+            const dirLight2 = new THREE.DirectionalLight(0xffedd5, 0.6);
             dirLight2.position.set(-10, -10, -5);
             propsScene.add(dirLight2);
 
-            limeTexture = createCitrusCanvasTexture('lime');
-            lemonTexture = createCitrusCanvasTexture('lemon');
-            orangeTexture = createCitrusCanvasTexture('orange');
+            // Load REAL photorealistic transparent photographic assets
+            ice1Tex = propTextureLoader.load('assets/ice1.png');
+            ice2Tex = propTextureLoader.load('assets/ice2.png');
+            sugarCubeTex = propTextureLoader.load('assets/sugar_cube.png');
+            limeTex = propTextureLoader.load('assets/lime_slice.png');
+            lemonTex = propTextureLoader.load('assets/lemon.png');
+            orangeTex = propTextureLoader.load('assets/orange_slice_wheel.png');
+            orangeLeafTex = propTextureLoader.load('assets/orange_leaf.png');
 
             propsGroup = new THREE.Group();
             propsScene.add(propsGroup);
@@ -2415,146 +2371,90 @@
             propsItems = [];
 
             const slots = [
-                { x: -9.5, y:  4.5, z:  1.0, scale: 1.15 },
-                { x:  9.8, y:  5.2, z: -0.5, scale: 1.25 },
-                { x: -8.8, y: -4.8, z: -1.0, scale: 1.05 },
-                { x:  9.2, y: -4.2, z:  1.2, scale: 1.20 },
-                { x: -5.5, y:  7.0, z: -2.0, scale: 0.85 },
-                { x:  6.0, y:  7.2, z:  0.8, scale: 0.95 },
-                { x: -11.5, y: 0.0, z: -1.5, scale: 0.90 },
-                { x:  11.5, y: 0.5, z:  0.5, scale: 1.10 }
+                { x: -10.2, y:  5.2, z:  1.2, scale: 1.35 },
+                { x:  10.8, y:  5.8, z: -0.5, scale: 1.45 },
+                { x: -9.5,  y: -5.0, z: -1.0, scale: 1.25 },
+                { x:  10.2, y: -4.5, z:  1.4, scale: 1.35 },
+                { x: -6.0,  y:  7.5, z: -2.0, scale: 1.05 },
+                { x:  6.8,  y:  7.8, z:  0.8, scale: 1.15 },
+                { x: -12.5, y: -0.2, z: -1.5, scale: 1.10 },
+                { x:  12.5, y:  0.5, z:  0.5, scale: 1.30 },
+                { x: -4.5,  y: -7.5, z:  1.0, scale: 1.10 },
+                { x:  4.5,  y: -7.8, z: -1.2, scale: 1.05 }
             ];
 
-            if (product.id === 'cola-next' || product.id === 'zero-next') {
-                slots.forEach((slot, i) => {
-                    const isCube = (i % 2 === 0);
-                    let mesh;
+            slots.forEach((slot, i) => {
+                let chosenTex = null;
+                let sizeW = 3.6 * slot.scale;
+                let sizeH = 3.6 * slot.scale;
 
-                    if (isCube) {
-                        const size = 1.8 * slot.scale;
-                        const geom = new THREE.BoxGeometry(size, size, size);
-                        const mat = new THREE.MeshStandardMaterial({
-                            color: product.id === 'cola-next' ? 0xe0f2fe : 0xd1d5db,
-                            roughness: 0.15,
-                            metalness: 0.1,
-                            transparent: true,
-                            opacity: 0.85
-                        });
-                        mesh = new THREE.Mesh(geom, mat);
-
-                        const innerGeom = new THREE.BoxGeometry(size * 0.72, size * 0.72, size * 0.72);
-                        const innerMat = new THREE.MeshBasicMaterial({
-                            color: 0xffffff,
-                            transparent: true,
-                            opacity: 0.45,
-                            wireframe: true
-                        });
-                        mesh.add(new THREE.Mesh(innerGeom, innerMat));
-                    } else {
-                        const radius = 1.0 * slot.scale;
-                        const geom = new THREE.SphereGeometry(radius, 24, 24);
-                        const mat = new THREE.MeshStandardMaterial({
-                            color: product.id === 'cola-next' ? 0xf59e0b : 0xe2e8f0,
-                            roughness: 0.1,
-                            metalness: 0.35,
-                            transparent: true,
-                            opacity: 0.75
-                        });
-                        mesh = new THREE.Mesh(geom, mat);
+                if (product.id === 'cola-next') {
+                    // Realistic Crystal Ice Cubes & White Granulated Sugar Cubes
+                    if (i % 3 === 0) chosenTex = ice1Tex;
+                    else if (i % 3 === 1) chosenTex = ice2Tex;
+                    else {
+                        chosenTex = sugarCubeTex;
+                        sizeW = 3.2 * slot.scale;
+                        sizeH = 3.2 * slot.scale;
                     }
+                } else if (product.id === 'zero-next') {
+                    // Zero Sugar: Pure crystal ice cubes
+                    chosenTex = (i % 2 === 0) ? ice1Tex : ice2Tex;
+                } else if (product.id === 'fizup-next') {
+                    // Real juicy lime wheels and fresh lemons
+                    if (i % 2 === 0) {
+                        chosenTex = limeTex;
+                        sizeW = 3.8 * slot.scale;
+                        sizeH = 3.8 * slot.scale;
+                    } else {
+                        chosenTex = lemonTex;
+                        sizeW = 4.2 * slot.scale;
+                        sizeH = 3.2 * slot.scale;
+                    }
+                } else { // rango-next
+                    // Real juicy orange wheels and citrus leaves
+                    if (i % 2 === 0) {
+                        chosenTex = orangeTex;
+                        sizeW = 4.0 * slot.scale;
+                        sizeH = 4.0 * slot.scale;
+                    } else {
+                        chosenTex = orangeLeafTex;
+                        sizeW = 3.4 * slot.scale;
+                        sizeH = 2.6 * slot.scale;
+                    }
+                }
 
-                    mesh.position.set(slot.x, slot.y, slot.z);
-                    propsGroup.add(mesh);
-
-                    propsItems.push({
-                        mesh,
-                        baseX: slot.x,
-                        baseY: slot.y,
-                        baseZ: slot.z,
-                        rotSpeedX: (Math.random() - 0.5) * 0.015,
-                        rotSpeedY: (Math.random() - 0.5) * 0.015,
-                        rotSpeedZ: (Math.random() - 0.5) * 0.01,
-                        floatSpeed: 0.8 + Math.random() * 0.6,
-                        floatPhase: Math.random() * Math.PI * 2,
-                        floatAmp: 0.35 + Math.random() * 0.25
-                    });
+                const geom = new THREE.PlaneGeometry(sizeW, sizeH);
+                const mat = new THREE.MeshStandardMaterial({
+                    map: chosenTex,
+                    transparent: true,
+                    alphaTest: 0.05,
+                    roughness: 0.2,
+                    metalness: 0.05,
+                    side: THREE.DoubleSide
                 });
-            } else if (product.id === 'fizup-next') {
-                slots.forEach((slot, i) => {
-                    const isLime = (i % 2 === 0);
-                    const radius = 1.9 * slot.scale;
-                    const geom = new THREE.CylinderGeometry(radius, radius, 0.26, 32);
 
-                    const rindMat = new THREE.MeshStandardMaterial({
-                        color: isLime ? 0x16a34a : 0xeab308,
-                        roughness: 0.4,
-                        transparent: true,
-                        opacity: 0.95
-                    });
-                    const capMat = new THREE.MeshStandardMaterial({
-                        map: isLime ? limeTexture : lemonTexture,
-                        roughness: 0.25,
-                        transparent: true,
-                        opacity: 0.92
-                    });
+                const mesh = new THREE.Mesh(geom, mat);
+                mesh.position.set(slot.x, slot.y, slot.z);
+                mesh.rotation.x = (Math.random() - 0.5) * 0.7;
+                mesh.rotation.y = (Math.random() - 0.5) * 0.7;
+                mesh.rotation.z = Math.random() * Math.PI * 2;
 
-                    const mesh = new THREE.Mesh(geom, [rindMat, capMat, capMat]);
-                    mesh.rotation.x = Math.PI / 3 + (Math.random() - 0.5) * 0.5;
-                    mesh.rotation.z = Math.random() * Math.PI;
-                    mesh.position.set(slot.x, slot.y, slot.z);
-                    propsGroup.add(mesh);
+                propsGroup.add(mesh);
 
-                    propsItems.push({
-                        mesh,
-                        baseX: slot.x,
-                        baseY: slot.y,
-                        baseZ: slot.z,
-                        rotSpeedX: (Math.random() - 0.5) * 0.012,
-                        rotSpeedY: (Math.random() - 0.5) * 0.015,
-                        rotSpeedZ: (Math.random() - 0.5) * 0.01,
-                        floatSpeed: 0.9 + Math.random() * 0.5,
-                        floatPhase: Math.random() * Math.PI * 2,
-                        floatAmp: 0.4
-                    });
+                propsItems.push({
+                    mesh,
+                    baseX: slot.x,
+                    baseY: slot.y,
+                    baseZ: slot.z,
+                    rotSpeedX: (Math.random() - 0.5) * 0.008,
+                    rotSpeedY: (Math.random() - 0.5) * 0.008,
+                    rotSpeedZ: (Math.random() - 0.5) * 0.006,
+                    floatSpeed: 0.8 + Math.random() * 0.5,
+                    floatPhase: Math.random() * Math.PI * 2,
+                    floatAmp: 0.35 + Math.random() * 0.2
                 });
-            } else { // Rango Next
-                slots.forEach((slot, i) => {
-                    const radius = 2.0 * slot.scale;
-                    const geom = new THREE.CylinderGeometry(radius, radius, 0.28, 32);
-
-                    const rindMat = new THREE.MeshStandardMaterial({
-                        color: 0xea580c,
-                        roughness: 0.4,
-                        transparent: true,
-                        opacity: 0.95
-                    });
-                    const capMat = new THREE.MeshStandardMaterial({
-                        map: orangeTexture,
-                        roughness: 0.25,
-                        transparent: true,
-                        opacity: 0.92
-                    });
-
-                    const mesh = new THREE.Mesh(geom, [rindMat, capMat, capMat]);
-                    mesh.rotation.x = Math.PI / 3 + (Math.random() - 0.5) * 0.5;
-                    mesh.rotation.z = Math.random() * Math.PI;
-                    mesh.position.set(slot.x, slot.y, slot.z);
-                    propsGroup.add(mesh);
-
-                    propsItems.push({
-                        mesh,
-                        baseX: slot.x,
-                        baseY: slot.y,
-                        baseZ: slot.z,
-                        rotSpeedX: (Math.random() - 0.5) * 0.012,
-                        rotSpeedY: (Math.random() - 0.5) * 0.015,
-                        rotSpeedZ: (Math.random() - 0.5) * 0.01,
-                        floatSpeed: 0.8 + Math.random() * 0.6,
-                        floatPhase: Math.random() * Math.PI * 2,
-                        floatAmp: 0.4
-                    });
-                });
-            }
+            });
         }
         const navItems = document.querySelectorAll('.nav-item');
         const tabPanes = document.querySelectorAll('.tab-pane');
@@ -2761,10 +2661,10 @@
                 card.dataset.index = idx;
                 card.dataset.productId = prod.id;
 
-                // Create a sleek preview can thumbnail
+                // Create a sleek preview can thumbnail with official packaging image
                 const previewImg = document.createElement('img');
                 previewImg.className = 'card-can-canvas';
-                previewImg.src = generateCardThumbnailDataUrl(prod);
+                previewImg.src = prod.cardImage;
                 previewImg.alt = prod.name;
 
                 const info = document.createElement('div');
@@ -2803,10 +2703,49 @@
             }
         }
 
-        if (modelViewer.loaded) {
-            applyCanTextures();
-        } else {
-            modelViewer.addEventListener('load', applyCanTextures);
+        let modelViewerReady = false;
+
+        function showFallbackCan() {
+            if (!modelViewerReady && canFallbackWrapper) {
+                canFallbackWrapper.style.display = 'flex';
+                if (modelViewer) {
+                    modelViewer.style.opacity = '0';
+                    modelViewer.style.pointerEvents = 'none';
+                }
+            }
+        }
+
+        function hideFallbackCan() {
+            modelViewerReady = true;
+            if (canFallbackWrapper) {
+                canFallbackWrapper.style.display = 'none';
+            }
+            if (modelViewer) {
+                modelViewer.style.opacity = '1';
+                modelViewer.style.pointerEvents = 'auto';
+            }
+        }
+
+        if (modelViewer) {
+            if (modelViewer.loaded) {
+                hideFallbackCan();
+                applyCanTextures();
+            } else {
+                modelViewer.addEventListener('load', () => {
+                    hideFallbackCan();
+                    applyCanTextures();
+                });
+                modelViewer.addEventListener('error', (e) => {
+                    console.warn("model-viewer load error, activating authentic fallback display:", e);
+                    showFallbackCan();
+                });
+                // Fallback timeout if model fails to load within 3.5 seconds (e.g. offline file:// protocol CORS)
+                setTimeout(() => {
+                    if (!modelViewer.loaded) {
+                        showFallbackCan();
+                    }
+                }, 3500);
+            }
         }
 
         // -------------------------------------------------------------
@@ -2841,6 +2780,26 @@
             rebuildPropsForProduct(product);
 
             // 2. Can Spin Animation
+            if (canFallbackImg) {
+                gsap.to(canFallbackImg, {
+                    scale: 0.82,
+                    opacity: 0.3,
+                    rotation: 180,
+                    duration: 0.6,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        canFallbackImg.src = product.cardImage;
+                        gsap.to(canFallbackImg, {
+                            scale: 1,
+                            opacity: 1,
+                            rotation: 0,
+                            duration: 1.4,
+                            ease: "back.out(0.7)"
+                        });
+                    }
+                });
+            }
+
             const spinObj = { val: 0, blur: 0 };
             gsap.to(spinObj, {
                 val: 360,
@@ -3147,8 +3106,12 @@
             currentOrbitDistance += (targetOrbitDistance - currentOrbitDistance) * 0.05;
 
             // Apply can stage position
+            const canStageTransform = `translate(calc(-50% + ${currentCanX}vw), calc(-50% + ${currentCanY}vh)) rotate(25deg)`;
             if (mainProduct3D) {
-                mainProduct3D.style.transform = `translate(calc(-50% + ${currentCanX}vw), calc(-50% + ${currentCanY}vh)) rotate(25deg)`;
+                mainProduct3D.style.transform = canStageTransform;
+            }
+            if (canFallbackWrapper) {
+                canFallbackWrapper.style.transform = canStageTransform;
             }
 
             // Tilt the product can with mouse + tab orbit + spin
